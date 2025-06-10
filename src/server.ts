@@ -4,12 +4,11 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import http from 'node:http';
-import path from 'node:path';
 
 import { buildSchema } from 'type-graphql';
 import { env } from './database/env';
 import { SystemResolvers } from './graphql/resolvers';
-import { ApolloContext, getContext } from './middleware/auth-middleware';
+import { ApolloContext, getContext } from './middleware/context-middleware';
 
 export async function startApolloServer() {
   const app = express();
@@ -20,7 +19,9 @@ export async function startApolloServer() {
     schema: await buildSchema({
       resolvers: SystemResolvers,
       validate: true, // Habilita validação automática com class-validator
-      emitSchemaFile: path.resolve(__dirname, '..', 'schema.gql'),
+      // emitSchemaFile: {
+      //   path: path.resolve(__dirname, '..', 'schema.gql'),
+      // },
     }),
     introspection: env.NODE_ENV !== 'production',
     plugins: [

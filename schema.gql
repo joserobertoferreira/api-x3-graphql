@@ -3,56 +3,45 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type AuthPayload {
-  accessToken: String!
-  user: UserType!
+"""Represent an address for customer or business partner"""
+type AddressType {
+  addressLine1: String
+  addressLine2: String
+  addressLine3: String
+  city: String
+
+  """Address code"""
+  code: String!
+  country: String
+  description: String
+
+  """Unique address ID"""
+  id: ID!
+
+  """Flag to set if is default address"""
+  isDefault: Int
+  state: String
+  zipCode: String
 }
 
-"""
-A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
-"""
-scalar DateTimeISO
+"""Represents a customer in the system"""
+type CustomerType {
+  """List of customer addresses"""
+  addresses(limit: Int = 10, offset: Int = 0): [AddressType!]
+  category: String
 
-input LoginInput {
-  password: String!
-  username: String!
-}
-
-type LoginPayload {
-  accessToken: String!
-  user: UserLoginType!
-}
-
-type Mutation {
-  login(input: LoginInput!): LoginPayload!
-  logout: Boolean!
-
-  """
-  Gera um novo access token usando o refresh token (via cookie HTTP-only).
-  """
-  refreshToken: AuthPayload!
-  register(input: RegisterInput!): AuthPayload!
+  """Customer code"""
+  customerCode: String!
+  customerCurrency: String
+  customerName: String
+  isActive: Int
+  shortName: String
 }
 
 type Query {
-  me: UserType
-}
+  """Fetches a single customer by their business code."""
+  customer(customerCode: String!): CustomerType
 
-input RegisterInput {
-  email: String!
-  password: String!
-  username: String!
-}
-
-type UserLoginType {
-  email: String
-  lastLogin: DateTimeISO!
-  username: String!
-}
-
-type UserType {
-  dateJoined: DateTimeISO!
-  email: String
-  id: ID!
-  username: String!
+  """Fetches a list of customers, with optional filters."""
+  customers(category: String, limit: Int = 20, offset: Int = 0): [CustomerType!]!
 }

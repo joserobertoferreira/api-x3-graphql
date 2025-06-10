@@ -6,6 +6,7 @@ const buildDatabaseUrl = (): string => {
   const user = env.DB_USERNAME;
   const password = env.DB_PASSWORD;
   const dbName = env.DB_DATABASE;
+  const dbSchema = env.DB_SCHEMA;
   const encrypt = false;
   const dbInstance = env.DB_INSTANCE || ''; // Optional instance name
   const trustServerCertificate = true;
@@ -25,7 +26,7 @@ const buildDatabaseUrl = (): string => {
     return databaseUrl;
   }
   // Otherwise, construct the URL from individual components
-  return `sqlserver://${server};instanceName=${dbInstance};database=${dbName};user=${user};password=${encodedPassword};encrypt=${encrypt};trustServerCertificate=${trustServerCertificate}`;
+  return `sqlserver://${server};instanceName=${dbInstance};database=${dbName};schema=${dbSchema};user=${user};password=${encodedPassword};encrypt=${encrypt};trustServerCertificate=${trustServerCertificate}`;
 };
 
 const DATABASE_URL_RUNTIME = buildDatabaseUrl();
@@ -36,6 +37,7 @@ const prisma = new PrismaClient({
       url: DATABASE_URL_RUNTIME,
     },
   },
+  log: env.NODE_ENV === 'development' ? ['query', 'info', 'warn', 'error'] : ['error'],
 });
 
 export default prisma;
