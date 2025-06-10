@@ -7,7 +7,9 @@ const buildDatabaseUrl = (): string => {
   const password = env.DB_PASSWORD;
   const dbName = env.DB_DATABASE;
   const encrypt = false;
+  const dbInstance = env.DB_INSTANCE || ''; // Optional instance name
   const trustServerCertificate = true;
+  const databaseUrl = env.DATABASE_URL;
 
   if (!server || !user || !password || !dbName) {
     console.error('FATAL ERROR: Missing database connection details in environment variables.');
@@ -18,7 +20,12 @@ const buildDatabaseUrl = (): string => {
   // "sqlserver://USER:PASSWORD@server:PORT;database=DB_DATABASE;encrypt=true;trustServerCertificate=true"
   const encodedPassword = encodeURIComponent(password);
 
-  return `sqlserver://${server};database=${dbName};user=${user};password=${encodedPassword};encrypt=${encrypt};trustServerCertificate=${trustServerCertificate}`;
+  if (databaseUrl) {
+    // If DATABASE_URL is provided, use it directly
+    return databaseUrl;
+  }
+  // Otherwise, construct the URL from individual components
+  return `sqlserver://${server};instanceName=${dbInstance};database=${dbName};user=${user};password=${encodedPassword};encrypt=${encrypt};trustServerCertificate=${trustServerCertificate}`;
 };
 
 const DATABASE_URL_RUNTIME = buildDatabaseUrl();

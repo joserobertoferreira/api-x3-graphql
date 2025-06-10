@@ -25,6 +25,12 @@ type LoginPayload {
 
 type Mutation {
   login(input: LoginInput!): LoginPayload!
+  logout: Boolean!
+
+  """
+  Gera um novo access token usando o refresh token (via cookie HTTP-only).
+  """
+  refreshToken: AuthPayload!
   register(input: RegisterInput!): AuthPayload!
 }
 

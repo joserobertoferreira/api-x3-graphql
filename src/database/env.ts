@@ -62,12 +62,14 @@ export const env = {
   ACCESS_EXPIRATION: process.env.ACCESS_TOKEN_EXPIRATION!,
   REFRESH_EXPIRATION: process.env.REFRESH_TOKEN_EXPIRATION!,
   RESET_EXPIRATION: process.env.PASSWORD_RESET_TOKEN_EXPIRATION!,
+  DATABASE_URL: process.env.DATABASE_URL || '', // Usar DATABASE_URL se estiver definido
   DB_SERVER: process.env.DB_SERVER,
   DB_DATABASE: process.env.DB_DATABASE,
   DB_USERNAME: process.env.DB_USERNAME,
   DB_PASSWORD: process.env.DB_PASSWORD,
   DB_SCHEMA: process.env.DB_SCHEMA,
   DB_AUTH_SCHEMA: process.env.DB_AUTH_SCHEMA,
+  DB_INSTANCE: process.env.DB_INSTANCENAME || '', // Optional instance name
   PORT: process.env.PORT || 4000,
   ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET!,
   REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET!,
@@ -79,12 +81,14 @@ export const env = {
 };
 
 const requiredEnvs: (keyof typeof env)[] = [
+  'DATABASE_URL',
   'DB_SERVER',
   'DB_DATABASE',
   'DB_USERNAME',
   'DB_PASSWORD',
   'DB_SCHEMA',
   'DB_AUTH_SCHEMA',
+  'DB_INSTANCE',
   'ACCESS_TOKEN_SECRET',
   'REFRESH_TOKEN_SECRET',
   'PASSWORD_RESET_TOKEN_SECRET',
