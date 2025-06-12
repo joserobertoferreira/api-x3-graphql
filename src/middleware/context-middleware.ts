@@ -1,5 +1,6 @@
 import { ExpressContextFunctionArgument } from '@apollo/server/express4';
 import { Request, Response } from 'express';
+import prisma from '../database/config';
 import { addressService } from '../services/address-service';
 import { customerService } from '../services/customer-service';
 import { businessPartnerService } from '../services/partner-service';
@@ -12,6 +13,7 @@ export interface ApolloContext {
     addressService: typeof addressService;
     businessPartnerService: typeof businessPartnerService;
   };
+  prisma: typeof prisma;
 }
 
 export const getContext = async ({ req, res }: ExpressContextFunctionArgument): Promise<ApolloContext> => {
@@ -23,5 +25,6 @@ export const getContext = async ({ req, res }: ExpressContextFunctionArgument): 
       businessPartnerService,
       customerService,
     },
+    prisma,
   };
 };

@@ -45,6 +45,7 @@ export class AddressService {
     entityNumber: string,
     code?: string,
     options?: {
+      where?: Prisma.AddressWhereInput;
       orderBy?: Prisma.AddressOrderByWithRelationInput;
       skip?: number;
       take?: number;
@@ -55,11 +56,13 @@ export class AddressService {
       const where_clause: Prisma.AddressWhereInput = {
         entityType: entityType,
         entityNumber: entityNumber,
+        code: code ? code : undefined, // Se o código for fornecido, adiciona ao filtro
+        ...options?.where, // Mescla com o filtro adicional, se houver
       };
 
-      if (code) {
-        where_clause.code = code;
-      }
+      // if (code) {
+      //   where_clause.code = code;
+      // }
 
       return await this.prisma.address.findMany({
         where: where_clause,

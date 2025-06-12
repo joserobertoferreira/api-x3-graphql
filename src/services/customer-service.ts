@@ -10,6 +10,18 @@ interface FindCustomersArgs {
   include?: Prisma.CustomerInclude; // Para carregar relações, como a de endereços
 }
 
+// interface PaginatedCustomers {
+//   where?: Prisma.CustomerWhereInput;
+//   orderBy?: Prisma.CustomerOrderByWithRelationInput[];
+//   take?: number;
+//   cursorObject?: CompositeCursor;
+// }
+
+// interface CustomerConnectionResult {
+//   edges: { cursor: string; node: Customer }[];
+//   pageInfo: { endCursor: string; hasNextPage: boolean };
+// }
+
 export class CustomerService {
   constructor(private prisma: PrismaClient) {}
 
@@ -50,6 +62,81 @@ export class CustomerService {
       throw new Error('Não foi possível buscar os clientes.');
     }
   }
+
+  /**
+   * Executa uma função dentro de uma transação de banco de dados.
+   * A função recebe um cliente Prisma transacional (tx) para executar as operações.
+   * Se a função falhar, a transação inteira é revertida (rollback).
+   * Se for bem-sucedida, a transação é confirmada (commit).
+   * @param fn A função assíncrona a ser executada na transação.
+   * @returns O valor retornado pela função `fn`.
+   */
+  async executeInTransaction<T>(fn: (tx: Prisma.TransactionClient) => Promise<T>): Promise<T> {
+    return this.prisma.$transaction(fn);
+  }
+
+  // async findCustomersByCursor({
+  //   where,
+  //   orderBy = [{ customerCode: 'asc' }, { id: 'asc' }],
+  //   take = 100,
+  //   cursorObject,
+  // }: PaginatedCustomers): Promise<CustomerConnectionResult> {
+  //   try {
+  //     const cursor = cursorObject
+  //       ? {
+  //           OR: [
+  //             { customerCode: { gt: cursorObject.primary as string } },
+  //             {
+  //               customerCode: { equals: cursorObject.primary as string },
+  //               id: { gt: cursorObject.secondary as number },
+  //             },
+  //           ],
+  //         }
+  //       : {};
+
+  //     const itemsToFetch = take + 1;
+
+  //     const customers = await this.prisma.customer.findMany({
+  //       // Combinamos o filtro original com o nosso filtro de cursor
+  //       where: {
+  //         ...where,
+  //         ...cursor,
+  //       },
+  //       take: itemsToFetch,
+  //       orderBy,
+  //     });
+
+  //     // Verificamos se recebemos mais itens do que pedimos
+  //     const hasNextPage = customers.length > itemsToFetch - 1;
+  //     // Se tivermos uma próxima página, removemos o item extra da nossa lista de resultados
+  //     if (hasNextPage) {
+  //       customers.pop();
+  //     }
+
+  //     // Mapeia os resultados para o formato de 'edges'
+  //     const edges = customers.map((customer) => ({
+  //       node: customer,
+  //       // O cursor agora é um objeto com os valores dos campos de ordenação
+  //       cursor: encodeCompositeCursor({
+  //         primary: customer.customerCode,
+  //         secondary: customer.id.toNumber(),
+  //       }),
+  //     }));
+
+  //     const endCursor = edges.length > 0 ? edges[edges.length - 1].cursor : '';
+
+  //     return {
+  //       edges,
+  //       pageInfo: {
+  //         hasNextPage,
+  //         endCursor,
+  //       },
+  //     };
+  //   } catch (error) {
+  //     console.error('Erro ao buscar clientes com cursor:', error);
+  //     throw new Error('Não foi possível buscar os clientes com cursor.');
+  //   }
+  // }
 
   /**
    * Cria um novo cliente.

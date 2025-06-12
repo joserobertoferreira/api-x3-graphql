@@ -1,10 +1,12 @@
-import { Decimal } from '@prisma/client/runtime/library';
-import { Field, ID, Int, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
 
 @ObjectType({ description: 'Represent an address for customer or business partner' })
 export class AddressType {
-  @Field(() => ID, { description: 'Unique address ID' })
-  id?: Decimal;
+  // @Field(() => ID, { description: 'Unique address ID' })
+  // id?: string;
+
+  // @Field(() => String, { name: 'guid', nullable: true })
+  // uniqueId?: string;
 
   @Field({ description: 'Address code' })
   code!: string;
@@ -32,6 +34,15 @@ export class AddressType {
 
   @Field({ nullable: true })
   country?: string;
+
+  @Field({ nullable: true })
+  countryName?: string;
+
+  @Field(() => [String], { nullable: true })
+  phones?: string[];
+
+  @Field(() => [String], { nullable: true })
+  emails?: string[];
 
   @Field(() => Int, { nullable: true, description: 'Flag to set if is default address' })
   isDefault?: number;

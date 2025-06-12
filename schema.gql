@@ -3,6 +3,17 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""Data to filter addresses. All fields are optional."""
+input AddressFilterInput {
+  city: String
+  country: String
+
+  """Number of addresses to return."""
+  limit: Int! = 10
+  offset: Int = 0
+  zipCode: String
+}
+
 """Represent an address for customer or business partner"""
 type AddressType {
   addressLine1: String
@@ -13,21 +24,45 @@ type AddressType {
   """Address code"""
   code: String!
   country: String
+  countryName: String
   description: String
-
-  """Unique address ID"""
+  emails: [String!]
+  guid: String
   id: ID!
 
   """Flag to set if is default address"""
   isDefault: Int
+  phones: [String!]
   state: String
   zipCode: String
+}
+
+input CustomerFilterInput {
+  category: String
+  country: String
+  email: String
+  isActive: Boolean
+
+  """Number of customers to return."""
+  limit: Int! = 100
+  nameContains: String
+  offset: Int = 0
+}
+
+"""Represents a paginated list of customers"""
+type CustomerPaginationType {
+  """Indicates if there are more pages to fetch."""
+  hasNextPage: Boolean!
+  nodes: [CustomerType!]!
+
+  """Total number of items in the collection."""
+  totalCount: Int!
 }
 
 """Represents a customer in the system"""
 type CustomerType {
   """List of customer addresses"""
-  addresses(limit: Int = 10, offset: Int = 0): [AddressType!]
+  addresses(input: AddressFilterInput = {}): [AddressType!]
   category: String
 
   """Customer code"""
@@ -43,5 +78,5 @@ type Query {
   customer(customerCode: String!): CustomerType
 
   """Fetches a list of customers, with optional filters."""
-  customers(category: String, limit: Int = 20, offset: Int = 0): [CustomerType!]!
+  customers(input: CustomerFilterInput!): CustomerPaginationType!
 }
