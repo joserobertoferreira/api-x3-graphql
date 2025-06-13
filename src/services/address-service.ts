@@ -47,8 +47,8 @@ export class AddressService {
     options?: {
       where?: Prisma.AddressWhereInput;
       orderBy?: Prisma.AddressOrderByWithRelationInput;
-      skip?: number;
-      take?: number;
+      // skip?: number;
+      // take?: number;
       include?: Prisma.AddressInclude;
     },
   ): Promise<Address[]> {
@@ -67,8 +67,8 @@ export class AddressService {
       return await this.prisma.address.findMany({
         where: where_clause,
         orderBy: options?.orderBy,
-        skip: options?.skip,
-        take: options?.take,
+        // skip: options?.skip,
+        // take: options?.take,
         include: options?.include,
       });
     } catch (error) {

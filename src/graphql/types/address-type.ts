@@ -1,9 +1,9 @@
-import { Field, Int, ObjectType } from 'type-graphql';
+import { Field, ID, Int, ObjectType } from 'type-graphql';
 
 @ObjectType({ description: 'Represent an address for customer or business partner' })
 export class AddressType {
-  // @Field(() => ID, { description: 'Unique address ID' })
-  // id?: string;
+  @Field(() => ID, { description: 'Unique address ID' })
+  id?: string;
 
   // @Field(() => String, { name: 'guid', nullable: true })
   // uniqueId?: string;

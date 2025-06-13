@@ -6,11 +6,14 @@
 """Data to filter addresses. All fields are optional."""
 input AddressFilterInput {
   city: String
+  code: String
   country: String
 
-  """Number of addresses to return."""
-  limit: Int! = 10
-  offset: Int = 0
+  """List of emails to filter addresses."""
+  emails: [String!]
+
+  """List of phone numbers to filter addresses."""
+  phones: [String!]
   zipCode: String
 }
 
@@ -28,6 +31,8 @@ type AddressType {
   description: String
   emails: [String!]
   guid: String
+
+  """Unique address ID"""
   id: ID!
 
   """Flag to set if is default address"""
@@ -38,15 +43,16 @@ type AddressType {
 }
 
 input CustomerFilterInput {
+  address: AddressFilterInput
   category: String
-  country: String
-  email: String
   isActive: Boolean
+  nameContains: String
+
+  """Pagination number (default=0)"""
+  skip: Int = 0
 
   """Number of customers to return."""
-  limit: Int! = 100
-  nameContains: String
-  offset: Int = 0
+  take: Int! = 100
 }
 
 """Represents a paginated list of customers"""
@@ -62,13 +68,16 @@ type CustomerPaginationType {
 """Represents a customer in the system"""
 type CustomerType {
   """List of customer addresses"""
-  addresses(input: AddressFilterInput = {}): [AddressType!]
+  addresses: [AddressType!]
   category: String
 
   """Customer code"""
   customerCode: String!
   customerCurrency: String
   customerName: String
+
+  """Customer default address code"""
+  defaultAddressCode: String
   isActive: Int
   shortName: String
 }
@@ -78,5 +87,5 @@ type Query {
   customer(customerCode: String!): CustomerType
 
   """Fetches a list of customers, with optional filters."""
-  customers(input: CustomerFilterInput!): CustomerPaginationType!
+  customers(filter: CustomerFilterInput): CustomerPaginationType!
 }

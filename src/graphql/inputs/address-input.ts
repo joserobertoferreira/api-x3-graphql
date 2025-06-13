@@ -1,18 +1,9 @@
-import { Field, InputType, Int } from 'type-graphql';
+import { Field, InputType } from 'type-graphql';
 
 @InputType({ description: 'Data to filter addresses. All fields are optional.' })
 export class AddressFilterInput {
-  @Field(() => Int, { defaultValue: 10, description: 'Number of addresses to return.' })
-  limit: number;
-
-  @Field(() => Int, { nullable: true, defaultValue: 0 })
-  offset?: number;
-
-  // @Field(() => Int, { defaultValue: 10, description: 'Number of addresses to return.' })
-  // first: number;
-
-  // @Field(() => String, { nullable: true, description: 'The cursor of the address to start after.' })
-  // after?: string;
+  @Field(() => String, { nullable: true })
+  code?: string;
 
   @Field(() => String, { nullable: true })
   zipCode?: string;
@@ -22,6 +13,12 @@ export class AddressFilterInput {
 
   @Field(() => String, { nullable: true })
   country?: string;
+
+  @Field(() => [String], { nullable: true, description: 'List of phone numbers to filter addresses.' })
+  phones?: string[];
+
+  @Field(() => [String], { nullable: true, description: 'List of emails to filter addresses.' })
+  emails?: string[];
 }
 
 @InputType({ description: 'Data to create a new address.' })

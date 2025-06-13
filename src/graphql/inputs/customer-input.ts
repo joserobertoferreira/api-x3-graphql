@@ -1,4 +1,5 @@
 import { Field, InputType, Int } from 'type-graphql';
+import { AddressFilterInput } from './address-input';
 
 @InputType()
 export class CustomerFilterInput {
@@ -9,10 +10,10 @@ export class CustomerFilterInput {
   // after?: string;
 
   @Field(() => Int, { defaultValue: 100, description: 'Number of customers to return.' })
-  limit: number;
+  take?: number;
 
-  @Field(() => Int, { nullable: true, defaultValue: 0 })
-  offset?: number;
+  @Field(() => Int, { nullable: true, description: 'Pagination number (default=0)', defaultValue: 0 })
+  skip?: number;
 
   @Field({ nullable: true })
   category?: string;
@@ -23,9 +24,6 @@ export class CustomerFilterInput {
   @Field({ nullable: true })
   isActive?: boolean;
 
-  @Field({ nullable: true })
-  country?: string;
-
-  @Field({ nullable: true })
-  email?: string;
+  @Field(() => AddressFilterInput, { nullable: true })
+  address?: AddressFilterInput;
 }

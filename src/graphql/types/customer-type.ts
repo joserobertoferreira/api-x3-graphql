@@ -33,6 +33,9 @@ export class CustomerType {
   @Field({ nullable: true })
   customerCurrency?: string;
 
+  @Field({ nullable: true, description: 'Customer default address code' })
+  defaultAddressCode?: string;
+
   // Campo para a relação com endereços
   @Field(() => [AddressType], { nullable: true, description: 'List of customer addresses' })
   addresses?: AddressType[];
