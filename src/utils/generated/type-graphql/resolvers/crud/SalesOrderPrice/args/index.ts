@@ -1,0 +1,14 @@
+export { AggregateSalesOrderPriceArgs } from "./AggregateSalesOrderPriceArgs";
+export { CreateManySalesOrderPriceArgs } from "./CreateManySalesOrderPriceArgs";
+export { CreateOneSalesOrderPriceArgs } from "./CreateOneSalesOrderPriceArgs";
+export { DeleteManySalesOrderPriceArgs } from "./DeleteManySalesOrderPriceArgs";
+export { DeleteOneSalesOrderPriceArgs } from "./DeleteOneSalesOrderPriceArgs";
+export { FindFirstSalesOrderPriceArgs } from "./FindFirstSalesOrderPriceArgs";
+export { FindFirstSalesOrderPriceOrThrowArgs } from "./FindFirstSalesOrderPriceOrThrowArgs";
+export { FindManySalesOrderPriceArgs } from "./FindManySalesOrderPriceArgs";
+export { FindUniqueSalesOrderPriceArgs } from "./FindUniqueSalesOrderPriceArgs";
+export { FindUniqueSalesOrderPriceOrThrowArgs } from "./FindUniqueSalesOrderPriceOrThrowArgs";
+export { GroupBySalesOrderPriceArgs } from "./GroupBySalesOrderPriceArgs";
+export { UpdateManySalesOrderPriceArgs } from "./UpdateManySalesOrderPriceArgs";
+export { UpdateOneSalesOrderPriceArgs } from "./UpdateOneSalesOrderPriceArgs";
+export { UpsertOneSalesOrderPriceArgs } from "./UpsertOneSalesOrderPriceArgs";

@@ -3,8 +3,8 @@ import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import { GraphQLDate, GraphQLDateTime } from 'graphql-scalars';
 import http from 'node:http';
-
 import { buildSchema } from 'type-graphql';
 import { env } from './database/env';
 import { SystemResolvers } from './graphql/resolvers';
@@ -19,6 +19,10 @@ export async function startApolloServer() {
     schema: await buildSchema({
       resolvers: SystemResolvers,
       validate: true, // Habilita validação automática com class-validator
+      scalarsMap: [
+        { type: Date, scalar: GraphQLDate },
+        { type: Date, scalar: GraphQLDateTime },
+      ],
       // emitSchemaFile: {
       //   path: path.resolve(__dirname, '..', 'schema.gql'),
       // },

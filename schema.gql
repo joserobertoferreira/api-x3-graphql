@@ -42,6 +42,90 @@ type AddressType {
   zipCode: String
 }
 
+"""
+The `BigInt` scalar type represents non-fractional signed whole numeric values.
+"""
+scalar BigInt
+
+input BigIntFilter {
+  equals: BigInt
+  gt: BigInt
+  gte: BigInt
+  in: [BigInt!]
+  lt: BigInt
+  lte: BigInt
+  not: NestedBigIntFilter
+  notIn: [BigInt!]
+}
+
+"""The `Byte` scalar type represents byte value as a Buffer"""
+scalar Byte
+
+input BytesFilter {
+  equals: Byte
+  in: [Byte!]
+  not: NestedBytesFilter
+  notIn: [Byte!]
+}
+
+"""Data to create a sales order, include header and lines"""
+input CreateSalesOrderInput {
+  """Currency code"""
+  currency: String
+
+  """Reference"""
+  customerOrderReference: String
+
+  """An array with all products to order."""
+  lines: [CreateSalesOrderLineInput!]!
+
+  """Order date - YYYYMMDD"""
+  orderDate: Date
+
+  """Payment term"""
+  paymentTerm: String
+
+  """Price -/+ tax"""
+  priceIncludingOrExcludingTax: Int
+
+  """Requested delivery date - YYYYMMDD"""
+  requestedDeliveryDate: Date
+
+  """Sales order type"""
+  salesOrderType: String
+
+  """Sales site"""
+  salesSite: String!
+
+  """Delivery address code"""
+  shipToCustomerAddress: String
+
+  """Shipment date - YYYYMMDD"""
+  shipmentDate: Date
+
+  """Shipment site"""
+  shipmentSite: String
+
+  """Sold-to-customer code"""
+  soldToCustomer: String!
+
+  """Tax rule"""
+  taxRule: String
+}
+
+input CreateSalesOrderLineInput {
+  expectedDeliveryDate: DateTimeISO
+
+  """Unit price of the product"""
+  grossPrice: Float
+
+  """Product SKU"""
+  product: String!
+
+  """Quantity of the product in sales unit"""
+  quantity: Float!
+}
+
 input CustomerFilterInput {
   address: AddressFilterInput
   category: String
@@ -82,10 +166,1126 @@ type CustomerType {
   shortName: String
 }
 
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+input DateTimeFilter {
+  equals: DateTimeISO
+  gt: DateTimeISO
+  gte: DateTimeISO
+  in: [DateTimeISO!]
+  lt: DateTimeISO
+  lte: DateTimeISO
+  not: NestedDateTimeFilter
+  notIn: [DateTimeISO!]
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+"""
+scalar DateTimeISO
+
+"""
+GraphQL Scalar representing the Prisma.Decimal type, based on Decimal.js library.
+"""
+scalar Decimal
+
+input DecimalFilter {
+  equals: Decimal
+  gt: Decimal
+  gte: Decimal
+  in: [Decimal!]
+  lt: Decimal
+  lte: Decimal
+  not: NestedDecimalFilter
+  notIn: [Decimal!]
+}
+
+input IntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
+type Mutation {
+  """Create a new sales order"""
+  createSalesOrder(data: CreateSalesOrderInput!): SalesOrder!
+}
+
+input NestedBigIntFilter {
+  equals: BigInt
+  gt: BigInt
+  gte: BigInt
+  in: [BigInt!]
+  lt: BigInt
+  lte: BigInt
+  not: NestedBigIntFilter
+  notIn: [BigInt!]
+}
+
+input NestedBytesFilter {
+  equals: Byte
+  in: [Byte!]
+  not: NestedBytesFilter
+  notIn: [Byte!]
+}
+
+input NestedDateTimeFilter {
+  equals: DateTimeISO
+  gt: DateTimeISO
+  gte: DateTimeISO
+  in: [DateTimeISO!]
+  lt: DateTimeISO
+  lte: DateTimeISO
+  not: NestedDateTimeFilter
+  notIn: [DateTimeISO!]
+}
+
+input NestedDecimalFilter {
+  equals: Decimal
+  gt: Decimal
+  gte: Decimal
+  in: [Decimal!]
+  lt: Decimal
+  lte: Decimal
+  not: NestedDecimalFilter
+  notIn: [Decimal!]
+}
+
+input NestedIntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input NestedStringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input ProductsNullableRelationFilter {
+  is: ProductsWhereInput
+  isNot: ProductsWhereInput
+}
+
+input ProductsWhereInput {
+  ALGBOM_0: IntFilter
+  ALGDAT_0: DateTimeFilter
+  ALG_0: StringFilter
+  ALTBOMHDK_0: IntFilter
+  AND: [ProductsWhereInput!]
+  AUUID_0: BytesFilter
+  BUY_0: StringFilter
+  CFGBPRNUM_0: StringFilter
+  CFGBPRREF_0: StringFilter
+  CFGDELDAT_0: DateTimeFilter
+  CFGFLDALP1_0: StringFilter
+  CFGFLDALP2_0: StringFilter
+  CFGFLDALP3_0: StringFilter
+  CFGFLDALP4_0: StringFilter
+  CFGFLDALP5_0: StringFilter
+  CFGFLDALP6_0: StringFilter
+  CFGFLDNUM1_0: DecimalFilter
+  CFGFLDNUM2_0: DecimalFilter
+  CFGFLDNUM3_0: DecimalFilter
+  CFGFLDNUM4_0: DecimalFilter
+  CFGFLDNUM5_0: DecimalFilter
+  CFGFLDNUM6_0: DecimalFilter
+  CFGITMREF_0: StringFilter
+  CFGVCRNUM_0: StringFilter
+  CPRAMT_0: DecimalFilter
+  CPRCOE_0: DecimalFilter
+  CREDATTIM_0: DateTimeFilter
+  CREDAT_0: DateTimeFilter
+  CREMAC_0: IntFilter
+  CREUSR_0: StringFilter
+  DAYUOM_0: StringFilter
+  DLU_0: DecimalFilter
+  DLVFLG_0: IntFilter
+  DTY_0: DecimalFilter
+  ECCBOMALT2_0: IntFilter
+  ECCBOMALT2_1: IntFilter
+  ECCBOMALT3_0: IntFilter
+  ECCBOMALT3_1: IntFilter
+  ECCFLG_0: IntFilter
+  ECCMAJ_0: StringFilter
+  ECCMIN_0: StringFilter
+  ECCROUALT_0: IntFilter
+  ECCROUFLG_0: IntFilter
+  ECCSTO_0: IntFilter
+  EXPNUM_0: IntFilter
+  FIMHORUOM_0: IntFilter
+  FIMHOR_0: IntFilter
+  FLGFAS_0: IntFilter
+  FLYCAT_0: StringFilter
+  FRTHORUOM_0: IntFilter
+  FRTHOR_0: IntFilter
+  GENFLG_0: IntFilter
+  GTIN_0: StringFilter
+  HDKITMTYP_0: IntFilter
+  HOUUOM_0: StringFilter
+  INTFLG_0: IntFilter
+  INVPRODTYP_0: IntFilter
+  ITMEXNFLG_0: StringFilter
+  ITMSFTTYP_0: IntFilter
+  LOAECCFLG_0: IntFilter
+  MATTOL_0: StringFilter
+  MFGFLG_0: IntFilter
+  MFGTEX_0: StringFilter
+  MINRMNPRC_0: DecimalFilter
+  MNTUOM_0: StringFilter
+  NEWLTISTA_0: StringFilter
+  NOT: [ProductsWhereInput!]
+  OFS_0: IntFilter
+  OR: [ProductsWhereInput!]
+  PCCCOD_0: StringFilter
+  PHAFLG_0: IntFilter
+  PITCDTUOM_0: StringFilter
+  PITCDT_0: IntFilter
+  PLANNER_0: StringFilter
+  PLMATTURL_0: StringFilter
+  PLMHISURL_0: StringFilter
+  PLMITMREF_0: StringFilter
+  PRQFLG_0: IntFilter
+  PURBASPRI_0: DecimalFilter
+  PURFLG_0: IntFilter
+  PURTEX_0: StringFilter
+  RCPFLG_0: IntFilter
+  ROWID: BigIntFilter
+  SALFLG_0: IntFilter
+  SCPFLG_0: IntFilter
+  SCSFLG_0: IntFilter
+  SELITMDES_0: IntFilter
+  SHLLTIUOM_0: IntFilter
+  SHLUOM_0: IntFilter
+  SSTCOD_0: StringFilter
+  STAFED_0: StringFilter
+  STATAXFLG_0: StringFilter
+  STCNUM_0: StringFilter
+  STOISSDEF_0: IntFilter
+  STULBEFMT_0: StringFilter
+  TOOFLG_0: IntFilter
+  TPLCONGUA_0: StringFilter
+  TPLCONLND_0: StringFilter
+  TPLCONSRV_0: StringFilter
+  TRKCOD_0: IntFilter
+  TRKLEV_0: IntFilter
+  UNNBR_0: StringFilter
+  UPDDATTIM_0: DateTimeFilter
+  UPDDAT_0: DateTimeFilter
+  UPDTICK_0: IntFilter
+  UPDUSR_0: StringFilter
+  YCBFLAG_0: IntFilter
+  YCBINTS_0: DecimalFilter
+  YCBORIG_0: StringFilter
+  YCBTYPE_0: IntFilter
+  accountingCode: StringFilter
+  alternateProduct: StringFilter
+  checkLeadTime: IntFilter
+  code: StringFilter
+  company: StringFilter
+  configuratorProductLine: StringFilter
+  costGroup: StringFilter
+  defaultPotencyInInternationalUnit: DecimalFilter
+  defaultPotencyInPercentage: DecimalFilter
+  description1: StringFilter
+  description2: StringFilter
+  description3: StringFilter
+  dimension1: StringFilter
+  dimension2: StringFilter
+  dimension3: StringFilter
+  dimension4: StringFilter
+  dimension5: StringFilter
+  dimension6: StringFilter
+  dimension7: StringFilter
+  dimension8: StringFilter
+  dimension9: StringFilter
+  dimension10: StringFilter
+  dimension11: StringFilter
+  dimension12: StringFilter
+  dimension13: StringFilter
+  dimension14: StringFilter
+  dimension15: StringFilter
+  dimension16: StringFilter
+  dimension17: StringFilter
+  dimension18: StringFilter
+  dimension19: StringFilter
+  dimension20: StringFilter
+  dimensionType1: StringFilter
+  dimensionType2: StringFilter
+  dimensionType3: StringFilter
+  dimensionType4: StringFilter
+  dimensionType5: StringFilter
+  dimensionType6: StringFilter
+  dimensionType7: StringFilter
+  dimensionType8: StringFilter
+  dimensionType9: StringFilter
+  dimensionType10: StringFilter
+  dimensionType11: StringFilter
+  dimensionType12: StringFilter
+  dimensionType13: StringFilter
+  dimensionType14: StringFilter
+  dimensionType15: StringFilter
+  dimensionType16: StringFilter
+  dimensionType17: StringFilter
+  dimensionType18: StringFilter
+  dimensionType19: StringFilter
+  dimensionType20: StringFilter
+  eeUnit: StringFilter
+  eeUnitToStockUnitConversionFactor: DecimalFilter
+  expirationLeadTime: IntFilter
+  expirationManagementMode: IntFilter
+  expirationStockStatus: StringFilter
+  intrastatCommodity: StringFilter
+  isIntrastatDeclarationSubmitted: IntFilter
+  isNegativeStockAuthorized: IntFilter
+  isPackingFactorEntryAllowed1: IntFilter
+  isPackingFactorEntryAllowed2: IntFilter
+  isPackingFactorEntryAllowed3: IntFilter
+  isPackingFactorEntryAllowed4: IntFilter
+  isPrototype: IntFilter
+  isPurchaseFactorEntryAllowed: IntFilter
+  isSalesFactorEntryAllowed: IntFilter
+  issuingPackingRule1: IntFilter
+  issuingPackingRule2: IntFilter
+  issuingPackingRule3: IntFilter
+  issuingPackingRule4: IntFilter
+  labelFormat1: StringFilter
+  labelFormat2: StringFilter
+  labelFormat3: StringFilter
+  labelFormat4: StringFilter
+  lotManagementMode: IntFilter
+  lotSequenceNumber: StringFilter
+  managementMode: IntFilter
+  materialCostGroup: IntFilter
+  packingUnit1: StringFilter
+  packingUnit2: StringFilter
+  packingUnit3: StringFilter
+  packingUnit4: StringFilter
+  packingUnitToStockUnitConversionFactor1: DecimalFilter
+  packingUnitToStockUnitConversionFactor2: DecimalFilter
+  packingUnitToStockUnitConversionFactor3: DecimalFilter
+  packingUnitToStockUnitConversionFactor4: DecimalFilter
+  productCategory: StringFilter
+  productStatisticalGroup1: StringFilter
+  productStatisticalGroup2: StringFilter
+  productStatisticalGroup3: StringFilter
+  productStatisticalGroup4: StringFilter
+  productStatisticalGroup5: StringFilter
+  productStatus: IntFilter
+  productVolume: DecimalFilter
+  productWeight: DecimalFilter
+  purchaseUnit: StringFilter
+  purchaseUnitToStockUnitConversionFactor: DecimalFilter
+  salesOrderLines: SalesOrderLineListRelationFilter
+  salesOrderPrices: SalesOrderPriceListRelationFilter
+  salesUnit: StringFilter
+  salesUnitToStockUnitConversionFactor: DecimalFilter
+  searchKey: StringFilter
+  serialNumberManagementMode: IntFilter
+  serialSequenceNumber: StringFilter
+  serviceLifeEndDate: DateTimeFilter
+  serviceLifeStartDate: DateTimeFilter
+  standard: StringFilter
+  statisticalUnit: StringFilter
+  statisticalUnitToStockUnitConversionFactor: DecimalFilter
+  stockManagementMode: IntFilter
+  stockUnit: StringFilter
+  storageSheet: StringFilter
+  taxLevel1: StringFilter
+  taxLevel2: StringFilter
+  taxLevel3: StringFilter
+  upc: StringFilter
+  userAccessCode: StringFilter
+  volumeUnit: StringFilter
+  weightUnit: StringFilter
+}
+
 type Query {
   """Fetches a single customer by their business code."""
   customer(customerCode: String!): CustomerType
 
   """Fetches a list of customers, with optional filters."""
   customers(filter: CustomerFilterInput): CustomerPaginationType!
+}
+
+type SalesOrder {
+  _count: SalesOrderCount
+  billAddressLine1: String!
+  billAddressLine2: String!
+  billAddressLine3: String!
+  billToCustomer: String!
+  billToCustomerAddress: String!
+  billToCustomerCity: String!
+  billToCustomerContact: String!
+  billToCustomerCountry: String!
+  billToCustomerCountryName: String!
+  billToCustomerEuropeanUnionVatNumber: String!
+  billToCustomerName1: String!
+  billToCustomerName2: String!
+  billToCustomerPostalCode: String!
+  category: Int!
+  company: String!
+  currency: String!
+  customerOrderReference: String!
+  customerStatisticalGroup1: String!
+  dimension1: String!
+  dimension2: String!
+  dimension3: String!
+  dimension4: String!
+  dimension5: String!
+  dimensionType1: String!
+  dimensionType2: String!
+  dimensionType3: String!
+  dimensionType4: String!
+  dimensionType5: String!
+  id: String!
+  invoicedStatus: Int!
+  linesAmountExcludingTax: Decimal!
+  linesAmountExcludingTaxInCompanyCurrency: Decimal!
+  linesAmountIncludingTax: Decimal!
+  linesAmountIncludingTaxInCompanyCurrency: Decimal!
+  orderDate: Date!
+  orderStatus: Int!
+  payByBusinessPartner: String!
+  payByBusinessPartnerAddress: String!
+  paymentTerm: String!
+  priceIncludingOrExcludingTax: Int!
+  requestedDeliveryDate: Date!
+  salesOrderType: String!
+  salesSite: String!
+  shipAddressLine1: String!
+  shipAddressLine2: String!
+  shipAddressLine3: String!
+  shipToCustomerAddress: String!
+  shipToCustomerCity: String!
+  shipToCustomerContact: String!
+  shipToCustomerCountry: String!
+  shipToCustomerCountryName: String!
+  shipToCustomerName1: String!
+  shipToCustomerName2: String!
+  shipToCustomerPostalCode: String!
+  shipmentDate: Date!
+  soldAddressLine1: String!
+  soldAddressLine2: String!
+  soldAddressLine3: String!
+  soldToCustomer: String!
+  soldToCustomerAddress: String!
+  soldToCustomerCity: String!
+  soldToCustomerContact: String!
+  soldToCustomerCountry: String!
+  soldToCustomerCountryName: String!
+  soldToCustomerLanguage: String!
+  soldToCustomerName1: String!
+  soldToCustomerName2: String!
+  soldToCustomerPostalCode: String!
+  taxAmount: Decimal!
+  taxRule: String!
+  taxableAmount: Decimal!
+  totalAmountExcludingTax: Decimal!
+  totalAmountExcludingTaxInCompanyCurrency: Decimal!
+  totalAmountIncludingTax: Decimal!
+  totalAmountIncludingTaxInCompanyCurrency: Decimal!
+}
+
+type SalesOrderCount {
+  orderLines(where: SalesOrderLineWhereInput): Int!
+  orderPrices(where: SalesOrderPriceWhereInput): Int!
+}
+
+input SalesOrderLineListRelationFilter {
+  every: SalesOrderLineWhereInput
+  none: SalesOrderLineWhereInput
+  some: SalesOrderLineWhereInput
+}
+
+input SalesOrderLineNullableRelationFilter {
+  is: SalesOrderLineWhereInput
+  isNot: SalesOrderLineWhereInput
+}
+
+input SalesOrderLineWhereInput {
+  ALLQTYSTU_0: DecimalFilter
+  ALLTYP_0: IntFilter
+  AND: [SalesOrderLineWhereInput!]
+  AUUID_0: BytesFilter
+  BASTAXLIN_0: DecimalFilter
+  BPTNUM_0: StringFilter
+  CAD_0: IntFilter
+  CCLDAT_0: DateTimeFilter
+  CCLREN_0: StringFilter
+  CREDATTIM_0: DateTimeFilter
+  CREDAT_0: DateTimeFilter
+  CREUSR_0: StringFilter
+  DAYLTI_0: IntFilter
+  DDTANOT_0: DecimalFilter
+  DDTANOT_1: DecimalFilter
+  DDTANOT_2: DecimalFilter
+  DDTANOT_3: DecimalFilter
+  DDTANOT_4: DecimalFilter
+  DDTANOT_5: DecimalFilter
+  DDTANOT_6: DecimalFilter
+  DDTANOT_7: DecimalFilter
+  DDTANOT_8: DecimalFilter
+  DDTANUM_0: IntFilter
+  DDTANUM_1: IntFilter
+  DDTANUM_2: IntFilter
+  DDTANUM_3: IntFilter
+  DDTANUM_4: IntFilter
+  DDTANUM_5: IntFilter
+  DDTANUM_6: IntFilter
+  DDTANUM_7: IntFilter
+  DDTANUM_8: IntFilter
+  DLVDAY_0: IntFilter
+  DLVFLG_0: IntFilter
+  DLVPIOCMP_0: IntFilter
+  DLVPIO_0: IntFilter
+  DLVQTYSTU_0: DecimalFilter
+  DRN_0: IntFilter
+  DSPLINFLG_0: IntFilter
+  DSPLINVOL_0: DecimalFilter
+  DSPLINWEI_0: DecimalFilter
+  DSPVOU_0: StringFilter
+  DSPWEU_0: StringFilter
+  EXPNUM_0: IntFilter
+  FMILIN_0: IntFilter
+  FMINUM_0: StringFilter
+  FMISEQ_0: IntFilter
+  FMI_0: IntFilter
+  GEOCOD_0: StringFilter
+  IMPNUMLIG_0: IntFilter
+  INSCTYFLG_0: StringFilter
+  INVAMT_0: DecimalFilter
+  INVPRNBOM_0: IntFilter
+  INVQTYSTU_0: DecimalFilter
+  LINORDNUM_0: IntFilter
+  LOC_0: StringFilter
+  LOT_0: StringFilter
+  LPRQTYSTU_0: DecimalFilter
+  LPRQTY_0: DecimalFilter
+  MDL_0: StringFilter
+  MON_0: IntFilter
+  NDEPRNBOM_0: IntFilter
+  NOT: [SalesOrderLineWhereInput!]
+  OCNPRNBOM_0: IntFilter
+  ODLQTYSTU_0: DecimalFilter
+  OPRQTYSTU_0: DecimalFilter
+  OPRQTY_0: DecimalFilter
+  OR: [SalesOrderLineWhereInput!]
+  PCKCAP_0: DecimalFilter
+  PCK_0: StringFilter
+  PERENDDAT_0: DateTimeFilter
+  PERNBRDAY_0: IntFilter
+  PERSTRDAT_0: DateTimeFilter
+  PITFLG_0: DecimalFilter
+  PJT_0: StringFilter
+  POHNUM_0: StringFilter
+  POPLIN_0: IntFilter
+  POQSEQ_0: IntFilter
+  PRECOD_0: StringFilter
+  PREQTYSTU_0: DecimalFilter
+  PREQTY_0: DecimalFilter
+  PRGBILNUM_0: StringFilter
+  QTYSTU_0: DecimalFilter
+  RATTAXLIN_0: DecimalFilter
+  ROWID: BigIntFilter
+  SDDLIN_0: IntFilter
+  SDHNUM_0: StringFilter
+  SHTQTYSTU_0: DecimalFilter
+  SOQPSONUM_0: StringFilter
+  SOQSEQNUM_0: IntFilter
+  SOQTEX_0: StringFilter
+  STA_0: StringFilter
+  TAXFLG_0: IntFilter
+  TAXGEOFLG_0: StringFilter
+  TAXREGFLG_0: IntFilter
+  TDLQTYSTU_0: DecimalFilter
+  TDLQTY_0: DecimalFilter
+  UPDDATTIM_0: DateTimeFilter
+  UPDDAT_0: DateTimeFilter
+  UPDTICK_0: IntFilter
+  UPDUSR_0: StringFilter
+  USELIMDAT_0: DateTimeFilter
+  VTC_0: StringFilter
+  VTS_0: StringFilter
+  WEE_0: IntFilter
+  YEA_0: IntFilter
+  category: IntFilter
+  company: StringFilter
+  expectedDeliveryDate: DateTimeFilter
+  isInvoiced: IntFilter
+  latestDeliveryDate: DateTimeFilter
+  latestDeliveryTime: StringFilter
+  lineNumber: IntFilter
+  lineStatus: IntFilter
+  locationReference: StringFilter
+  majorProductVersion: StringFilter
+  minorProductVersion: StringFilter
+  order: SalesOrderNullableRelationFilter
+  orderDate: DateTimeFilter
+  price: SalesOrderPriceNullableRelationFilter
+  product: StringFilter
+  productDetails: ProductsNullableRelationFilter
+  productStockManagement: IntFilter
+  quantityInSalesUnitAllocated: DecimalFilter
+  quantityInSalesUnitDelivered: DecimalFilter
+  quantityInSalesUnitInitiallyOrdered: DecimalFilter
+  quantityInSalesUnitInvoiced: DecimalFilter
+  quantityInSalesUnitOnDeliveryOrScheduledInvoice: DecimalFilter
+  quantityInSalesUnitOrdered: DecimalFilter
+  quantityInSalesUnitShortage: DecimalFilter
+  requestedDeliveryDate: DateTimeFilter
+  requestedDeliveryReference: StringFilter
+  requestedDeliveryTime: StringFilter
+  salesOrder: StringFilter
+  salesSite: StringFilter
+  sequenceNumber: IntFilter
+  shipToCustomerAddress: StringFilter
+  shipmentDate: DateTimeFilter
+  shipmentTime: StringFilter
+  shippingSite: StringFilter
+  soldToCustomer: StringFilter
+  workInProgressNumber: StringFilter
+  workInProgressStatus: IntFilter
+}
+
+input SalesOrderNullableRelationFilter {
+  is: SalesOrderWhereInput
+  isNot: SalesOrderWhereInput
+}
+
+input SalesOrderPriceListRelationFilter {
+  every: SalesOrderPriceWhereInput
+  none: SalesOrderPriceWhereInput
+  some: SalesOrderPriceWhereInput
+}
+
+input SalesOrderPriceNullableRelationFilter {
+  is: SalesOrderPriceWhereInput
+  isNot: SalesOrderPriceWhereInput
+}
+
+input SalesOrderPriceWhereInput {
+  AND: [SalesOrderPriceWhereInput!]
+  AUUID_0: BytesFilter
+  BPCSALPRI_0: DecimalFilter
+  CONNUM_0: StringFilter
+  CREDATTIM_0: DateTimeFilter
+  CREDAT_0: DateTimeFilter
+  CREUSR_0: StringFilter
+  ENDDAT_0: DateTimeFilter
+  EXPNUM_0: IntFilter
+  INVCND_0: StringFilter
+  LINREVNUM_0: IntFilter
+  NOT: [SalesOrderPriceWhereInput!]
+  OR: [SalesOrderPriceWhereInput!]
+  PCNTNUM_0: StringFilter
+  ROWID: BigIntFilter
+  SSTCOD_0: StringFilter
+  STRDAT_0: DateTimeFilter
+  UPDDATTIM_0: DateTimeFilter
+  UPDDAT_0: DateTimeFilter
+  UPDTICK_0: IntFilter
+  UPDUSR_0: StringFilter
+  billToCustomer: StringFilter
+  calculatedTaxableBase1: DecimalFilter
+  calculatedTaxableBase2: DecimalFilter
+  category: IntFilter
+  company: StringFilter
+  costPrice: DecimalFilter
+  customerProduct: StringFilter
+  discountOrCharge1: DecimalFilter
+  discountOrCharge2: DecimalFilter
+  discountOrCharge3: DecimalFilter
+  discountOrCharge4: DecimalFilter
+  discountOrCharge5: DecimalFilter
+  discountOrCharge6: DecimalFilter
+  discountOrCharge7: DecimalFilter
+  discountOrCharge8: DecimalFilter
+  discountOrCharge9: DecimalFilter
+  discountOrChargeReason1: IntFilter
+  discountOrChargeReason2: IntFilter
+  discountOrChargeReason3: IntFilter
+  discountOrChargeReason4: IntFilter
+  discountOrChargeReason5: IntFilter
+  discountOrChargeReason6: IntFilter
+  discountOrChargeReason7: IntFilter
+  discountOrChargeReason8: IntFilter
+  discountOrChargeReason9: IntFilter
+  freeProduct: IntFilter
+  freeProductLineSource: IntFilter
+  grossPrice: DecimalFilter
+  line: SalesOrderLineNullableRelationFilter
+  lineNumber: IntFilter
+  lineStatus: IntFilter
+  lineType: IntFilter
+  margin: DecimalFilter
+  netPrice: DecimalFilter
+  netPriceExcludingTax: DecimalFilter
+  netPriceIncludingTax: DecimalFilter
+  order: SalesOrderNullableRelationFilter
+  priceReason: IntFilter
+  product: StringFilter
+  productDescriptionInCustomerLanguage: StringFilter
+  productDescriptionInUserLanguage: StringFilter
+  productDetails: ProductsNullableRelationFilter
+  productStatisticalGroup1: StringFilter
+  productStatisticalGroup2: StringFilter
+  productStatisticalGroup3: StringFilter
+  productStatisticalGroup4: StringFilter
+  productStatisticalGroup5: StringFilter
+  salesOrder: StringFilter
+  salesQuote: StringFilter
+  salesQuoteLineNumber: IntFilter
+  salesRep1: StringFilter
+  salesRep1CommissionRate1: DecimalFilter
+  salesRep1CommissionRate2: DecimalFilter
+  salesRep2: StringFilter
+  salesRepCommissionFactor: DecimalFilter
+  salesSite: StringFilter
+  salesUnit: StringFilter
+  salesUnitToStockUnitConversionFactor: DecimalFilter
+  sequenceNumber: IntFilter
+  shipToCustomerAddress: StringFilter
+  shipToCustomerContact: StringFilter
+  shippingSite: StringFilter
+  soldToCustomer: StringFilter
+  stockUnit: StringFilter
+  tax1: StringFilter
+  tax2: StringFilter
+  tax3: StringFilter
+  taxLevel1: StringFilter
+  taxLevel2: StringFilter
+  taxLevel3: StringFilter
+}
+
+input SalesOrderWhereInput {
+  AND: [SalesOrderWhereInput!]
+  AUUID_0: BytesFilter
+  CMGNUM_0: StringFilter
+  CREDATTIM_0: DateTimeFilter
+  CREDAT_0: DateTimeFilter
+  CREUSR_0: StringFilter
+  DRAFTREJREN_0: StringFilter
+  DRAFTREJ_0: IntFilter
+  DRAFTSTATUS_0: IntFilter
+  EXPNUM_0: IntFilter
+  INRATI_0: DecimalFilter
+  INRNOT_0: DecimalFilter
+  INRSCHATI_0: DecimalFilter
+  INRSCHNOT_0: DecimalFilter
+  NOT: [SalesOrderWhereInput!]
+  OPGNUM_0: StringFilter
+  OR: [SalesOrderWhereInput!]
+  ROWID: BigIntFilter
+  SINUM_0: StringFilter
+  SOHCFMFLG_0: IntFilter
+  SOHNUMEND_0: StringFilter
+  SOHVALDAT_0: DateTimeFilter
+  SRENUM_0: StringFilter
+  UPDDATTIM_0: DateTimeFilter
+  UPDDAT_0: DateTimeFilter
+  UPDTICK_0: IntFilter
+  UPDUSR_0: StringFilter
+  VLYDATCON_0: DateTimeFilter
+  XDADVGRO_0: DecimalFilter
+  additionnalReference: StringFilter
+  allocationStatus: IntFilter
+  allocationType: IntFilter
+  billAddressLine1: StringFilter
+  billAddressLine2: StringFilter
+  billAddressLine3: StringFilter
+  billToCustomer: StringFilter
+  billToCustomerAddress: StringFilter
+  billToCustomerCity: StringFilter
+  billToCustomerContact: StringFilter
+  billToCustomerCountry: StringFilter
+  billToCustomerCountryName: StringFilter
+  billToCustomerEuropeanUnionVatNumber: StringFilter
+  billToCustomerName1: StringFilter
+  billToCustomerName2: StringFilter
+  billToCustomerPostalCode: StringFilter
+  billToCustomerState: StringFilter
+  carrier: StringFilter
+  category: IntFilter
+  closingDate: DateTimeFilter
+  closingReason: StringFilter
+  company: StringFilter
+  creditLevelStatus: IntFilter
+  currency: StringFilter
+  currencyRate: DecimalFilter
+  currencyRateType: IntFilter
+  customerOrderReference: StringFilter
+  customerStatisticalGroup1: StringFilter
+  customerStatisticalGroup2: StringFilter
+  customerStatisticalGroup3: StringFilter
+  customerStatisticalGroup4: StringFilter
+  customerStatisticalGroup5: StringFilter
+  deliveryLeadTime: IntFilter
+  deliveryMode: StringFilter
+  deliveryPriority: IntFilter
+  deliveryStatus: IntFilter
+  deliveryType: StringFilter
+  dimension1: StringFilter
+  dimension2: StringFilter
+  dimension3: StringFilter
+  dimension4: StringFilter
+  dimension5: StringFilter
+  dimension6: StringFilter
+  dimension7: StringFilter
+  dimension8: StringFilter
+  dimension9: StringFilter
+  dimension10: StringFilter
+  dimension11: StringFilter
+  dimension12: StringFilter
+  dimension13: StringFilter
+  dimension14: StringFilter
+  dimension15: StringFilter
+  dimension16: StringFilter
+  dimension17: StringFilter
+  dimension18: StringFilter
+  dimension19: StringFilter
+  dimension20: StringFilter
+  dimensionType1: StringFilter
+  dimensionType2: StringFilter
+  dimensionType3: StringFilter
+  dimensionType4: StringFilter
+  dimensionType5: StringFilter
+  dimensionType6: StringFilter
+  dimensionType7: StringFilter
+  dimensionType8: StringFilter
+  dimensionType9: StringFilter
+  dimensionType10: StringFilter
+  dimensionType11: StringFilter
+  dimensionType12: StringFilter
+  dimensionType13: StringFilter
+  dimensionType14: StringFilter
+  dimensionType15: StringFilter
+  dimensionType16: StringFilter
+  dimensionType17: StringFilter
+  dimensionType18: StringFilter
+  dimensionType19: StringFilter
+  dimensionType20: StringFilter
+  discountOrChargeCalculationRules1: IntFilter
+  discountOrChargeCalculationRules2: IntFilter
+  discountOrChargeCalculationRules3: IntFilter
+  discountOrChargeCalculationRules4: IntFilter
+  discountOrChargeCalculationRules5: IntFilter
+  discountOrChargeCalculationRules6: IntFilter
+  discountOrChargeCalculationRules7: IntFilter
+  discountOrChargeCalculationRules8: IntFilter
+  discountOrChargeCalculationRules9: IntFilter
+  distributionKey1: StringFilter
+  distributionKey2: StringFilter
+  distributionKey3: StringFilter
+  distributionKey4: StringFilter
+  distributionKey5: StringFilter
+  distributionKey6: StringFilter
+  distributionKey7: StringFilter
+  distributionKey8: StringFilter
+  distributionKey9: StringFilter
+  distributionKey10: StringFilter
+  distributionKey11: StringFilter
+  distributionKey12: StringFilter
+  distributionKey13: StringFilter
+  distributionKey14: StringFilter
+  distributionKey15: StringFilter
+  distributionKey16: StringFilter
+  distributionKey17: StringFilter
+  distributionKey18: StringFilter
+  distributionKey19: StringFilter
+  distributionKey20: StringFilter
+  distributionKey21: StringFilter
+  distributionKey22: StringFilter
+  distributionKey23: StringFilter
+  distributionKey24: StringFilter
+  distributionKey25: StringFilter
+  distributionKey26: StringFilter
+  distributionKey27: StringFilter
+  distributionKey28: StringFilter
+  distributionKey29: StringFilter
+  distributionKey30: StringFilter
+  earlyDiscountOrLateCharge: StringFilter
+  entityUseCode: StringFilter
+  forwardingAgent: StringFilter
+  forwardingAgentAddress: StringFilter
+  geographicCode: StringFilter
+  groupCustomer: StringFilter
+  id: StringFilter
+  incoterm: StringFilter
+  incotermTown: StringFilter
+  insideCityLimits: StringFilter
+  intrastatTransportLocation: IntFilter
+  invoicedStatus: IntFilter
+  invoicingElement1: IntFilter
+  invoicingElement2: IntFilter
+  invoicingElement3: IntFilter
+  invoicingElement4: IntFilter
+  invoicingElement5: IntFilter
+  invoicingElement6: IntFilter
+  invoicingElement7: IntFilter
+  invoicingElement8: IntFilter
+  invoicingElement9: IntFilter
+  invoicingElement10: IntFilter
+  invoicingElement11: IntFilter
+  invoicingElement12: IntFilter
+  invoicingElement13: IntFilter
+  invoicingElement14: IntFilter
+  invoicingElement15: IntFilter
+  invoicingElement16: IntFilter
+  invoicingElement17: IntFilter
+  invoicingElement18: IntFilter
+  invoicingElement19: IntFilter
+  invoicingElement20: IntFilter
+  invoicingElement21: IntFilter
+  invoicingElement22: IntFilter
+  invoicingElement23: IntFilter
+  invoicingElement24: IntFilter
+  invoicingElement25: IntFilter
+  invoicingElement26: IntFilter
+  invoicingElement27: IntFilter
+  invoicingElement28: IntFilter
+  invoicingElement29: IntFilter
+  invoicingElement30: IntFilter
+  invoicingElementLine1: IntFilter
+  invoicingElementLine2: IntFilter
+  invoicingElementLine3: IntFilter
+  invoicingElementLine4: IntFilter
+  invoicingElementLine5: IntFilter
+  invoicingElementLine6: IntFilter
+  invoicingElementLine7: IntFilter
+  invoicingElementLine8: IntFilter
+  invoicingElementLine9: IntFilter
+  invoicingMode: IntFilter
+  invoicingTerm: StringFilter
+  isAcknowledgmentPrinted: IntFilter
+  isIntercompany: IntFilter
+  isIntersite: IntFilter
+  isOrderClosingAllowed: IntFilter
+  isUnlocked: IntFilter
+  isValidatedAddress: IntFilter
+  lastSalesDelivery: StringFilter
+  lastSalesDeliveryDate: DateTimeFilter
+  lastSalesInvoice: StringFilter
+  lastSalesInvoiceDate: DateTimeFilter
+  linesAmountExcludingTax: DecimalFilter
+  linesAmountExcludingTaxInCompanyCurrency: DecimalFilter
+  linesAmountIncludingTax: DecimalFilter
+  linesAmountIncludingTaxInCompanyCurrency: DecimalFilter
+  linesAmountRemainingToDeliverExcludingTax: DecimalFilter
+  linesAmountRemainingToDeliverIncludingTax: DecimalFilter
+  loanReturnDate: DateTimeFilter
+  manualHoldOrReleaseDate: DateTimeFilter
+  manualHoldOrReleaseTime: StringFilter
+  manualHoldOrReleaseUser: StringFilter
+  manualHoldReason: StringFilter
+  manualHoldStatus: IntFilter
+  marketingOperationType: StringFilter
+  mustContainOneOrderPerDelivery: IntFilter
+  mustPrintAcknowledgment: IntFilter
+  numberOfAcknowledgmentCopies: IntFilter
+  numberOfClosedLines: IntFilter
+  numberOfDeliveredLines: IntFilter
+  numberOfInvoicedLines: IntFilter
+  numberOfLines: IntFilter
+  numberOfLinesToAllocate: IntFilter
+  orderDate: DateTimeFilter
+  orderHeaderTexKey1: StringFilter
+  orderHeaderTexKey2: StringFilter
+  orderLines: SalesOrderLineListRelationFilter
+  orderPrices: SalesOrderPriceListRelationFilter
+  orderStatus: IntFilter
+  partialDelivery: IntFilter
+  payByBusinessPartner: StringFilter
+  payByBusinessPartnerAddress: StringFilter
+  paymentTerm: StringFilter
+  percentageOrAmount1: DecimalFilter
+  percentageOrAmount2: DecimalFilter
+  percentageOrAmount3: DecimalFilter
+  percentageOrAmount4: DecimalFilter
+  percentageOrAmount5: DecimalFilter
+  percentageOrAmount6: DecimalFilter
+  percentageOrAmount7: DecimalFilter
+  percentageOrAmount8: DecimalFilter
+  percentageOrAmount9: DecimalFilter
+  percentageOrAmount10: DecimalFilter
+  percentageOrAmount11: DecimalFilter
+  percentageOrAmount12: DecimalFilter
+  percentageOrAmount13: DecimalFilter
+  percentageOrAmount14: DecimalFilter
+  percentageOrAmount15: DecimalFilter
+  percentageOrAmount16: DecimalFilter
+  percentageOrAmount17: DecimalFilter
+  percentageOrAmount18: DecimalFilter
+  percentageOrAmount19: DecimalFilter
+  percentageOrAmount20: DecimalFilter
+  percentageOrAmount21: DecimalFilter
+  percentageOrAmount22: DecimalFilter
+  percentageOrAmount23: DecimalFilter
+  percentageOrAmount24: DecimalFilter
+  percentageOrAmount25: DecimalFilter
+  percentageOrAmount26: DecimalFilter
+  percentageOrAmount27: DecimalFilter
+  percentageOrAmount28: DecimalFilter
+  percentageOrAmount29: DecimalFilter
+  percentageOrAmount30: DecimalFilter
+  previousCreditLevelStatus: IntFilter
+  previousManualHoldOrReleaseDate: DateTimeFilter
+  previousManualHoldOrReleaseTime: StringFilter
+  previousManualHoldOrReleaseUser: StringFilter
+  previousManualHoldReason: StringFilter
+  priceIncludingOrExcludingTax: IntFilter
+  priceStructure: StringFilter
+  project: StringFilter
+  requestedDeliveryDate: DateTimeFilter
+  requestedDeliveryTime: StringFilter
+  revisionNumber: IntFilter
+  routeNumber: IntFilter
+  sageSalesTax1: StringFilter
+  sageSalesTax2: StringFilter
+  sageSalesTax3: StringFilter
+  sageSalesTax4: StringFilter
+  sageSalesTax5: StringFilter
+  sageSalesTax6: StringFilter
+  sageSalesTax7: StringFilter
+  sageSalesTax8: StringFilter
+  sageSalesTax9: StringFilter
+  sageSalesTax10: StringFilter
+  sageSalesTax11: StringFilter
+  sageSalesTax12: StringFilter
+  sageSalesTax13: StringFilter
+  sageSalesTax14: StringFilter
+  sageSalesTax15: StringFilter
+  sageSalesTax16: StringFilter
+  sageSalesTax17: StringFilter
+  sageSalesTax18: StringFilter
+  sageSalesTax19: StringFilter
+  sageSalesTax20: StringFilter
+  sageSalesTax21: StringFilter
+  sageSalesTax22: StringFilter
+  sageSalesTax23: StringFilter
+  sageSalesTax24: StringFilter
+  sageSalesTax25: StringFilter
+  sageSalesTax26: StringFilter
+  sageSalesTax27: StringFilter
+  sageSalesTax28: StringFilter
+  sageSalesTax29: StringFilter
+  sageSalesTax30: StringFilter
+  salesOrderType: StringFilter
+  salesProforma: StringFilter
+  salesQuote: StringFilter
+  salesRep1: StringFilter
+  salesRep2: StringFilter
+  salesSite: StringFilter
+  scheduledInvoiceStartDueDate: DateTimeFilter
+  shipAddressLine1: StringFilter
+  shipAddressLine2: StringFilter
+  shipAddressLine3: StringFilter
+  shipToCustomerAddress: StringFilter
+  shipToCustomerCity: StringFilter
+  shipToCustomerContact: StringFilter
+  shipToCustomerCountry: StringFilter
+  shipToCustomerCountryName: StringFilter
+  shipToCustomerName1: StringFilter
+  shipToCustomerName2: StringFilter
+  shipToCustomerPostalCode: StringFilter
+  shipToCustomerState: StringFilter
+  shipmentDate: DateTimeFilter
+  shipperOrReceiverCode: StringFilter
+  shippingSite: StringFilter
+  signatureStatus: IntFilter
+  soldAddressLine1: StringFilter
+  soldAddressLine2: StringFilter
+  soldAddressLine3: StringFilter
+  soldToCustomer: StringFilter
+  soldToCustomerAddress: StringFilter
+  soldToCustomerCity: StringFilter
+  soldToCustomerContact: StringFilter
+  soldToCustomerCountry: StringFilter
+  soldToCustomerCountryName: StringFilter
+  soldToCustomerLanguage: StringFilter
+  soldToCustomerName1: StringFilter
+  soldToCustomerName2: StringFilter
+  soldToCustomerPostalCode: StringFilter
+  soldToCustomerState: StringFilter
+  sourceCity: StringFilter
+  taxAmount: DecimalFilter
+  taxRule: StringFilter
+  taxableAmount: DecimalFilter
+  totalAmountExcludingTax: DecimalFilter
+  totalAmountExcludingTaxInCompanyCurrency: DecimalFilter
+  totalAmountIncludingTax: DecimalFilter
+  totalAmountIncludingTaxInCompanyCurrency: DecimalFilter
+  totalMargin: DecimalFilter
+  totalQuantityDistributedOnLines: DecimalFilter
+  totalVolumeDistributedOnLines: DecimalFilter
+  totalWeightDistributedOnLines: DecimalFilter
+  valueType1: IntFilter
+  valueType2: IntFilter
+  valueType3: IntFilter
+  valueType4: IntFilter
+  valueType5: IntFilter
+  valueType6: IntFilter
+  valueType7: IntFilter
+  valueType8: IntFilter
+  valueType9: IntFilter
+  valueType10: IntFilter
+  valueType11: IntFilter
+  valueType12: IntFilter
+  valueType13: IntFilter
+  valueType14: IntFilter
+  valueType15: IntFilter
+  valueType16: IntFilter
+  valueType17: IntFilter
+  valueType18: IntFilter
+  valueType19: IntFilter
+  valueType20: IntFilter
+  valueType21: IntFilter
+  valueType22: IntFilter
+  valueType23: IntFilter
+  valueType24: IntFilter
+  valueType25: IntFilter
+  valueType26: IntFilter
+  valueType27: IntFilter
+  valueType28: IntFilter
+  valueType29: IntFilter
+  valueType30: IntFilter
+  vertexTransactionType: StringFilter
+  volumeUnitForDistributionOnLines: StringFilter
+  weightUnitForDistributionOnLines: StringFilter
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
 }

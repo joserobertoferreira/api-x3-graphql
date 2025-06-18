@@ -1,0 +1,33 @@
+import * as TypeGraphQL from "type-graphql";
+import * as GraphQLScalars from "graphql-scalars";
+import { SequenceNumbersOrderByWithRelationInput } from "../../../inputs/SequenceNumbersOrderByWithRelationInput";
+import { SequenceNumbersWhereInput } from "../../../inputs/SequenceNumbersWhereInput";
+import { SequenceNumbersWhereUniqueInput } from "../../../inputs/SequenceNumbersWhereUniqueInput";
+
+@TypeGraphQL.ArgsType()
+export class AggregateSequenceNumbersArgs {
+  @TypeGraphQL.Field(_type => SequenceNumbersWhereInput, {
+    nullable: true
+  })
+  where?: SequenceNumbersWhereInput | undefined;
+
+  @TypeGraphQL.Field(_type => [SequenceNumbersOrderByWithRelationInput], {
+    nullable: true
+  })
+  orderBy?: SequenceNumbersOrderByWithRelationInput[] | undefined;
+
+  @TypeGraphQL.Field(_type => SequenceNumbersWhereUniqueInput, {
+    nullable: true
+  })
+  cursor?: SequenceNumbersWhereUniqueInput | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  take?: number | undefined;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  skip?: number | undefined;
+}

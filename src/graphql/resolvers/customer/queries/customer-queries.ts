@@ -105,7 +105,7 @@ export class CustomerQueries {
     );
     return addresses.map((address) => ({
       ...address,
-      id: address.id.toString(),
+      id: address.ROWID.toString(),
     }));
   }
 }

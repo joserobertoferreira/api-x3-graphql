@@ -37,13 +37,13 @@ export class AddressResolver {
   id(@Root() address: PrismaAddress): string {
     // Converte o tipo Decimal do Prisma para uma string.
     // O GraphQL o tratará como um ID.
-    return address.id.toString();
+    return address.ROWID.toString();
   }
 
   @FieldResolver(() => String, { name: 'guid', nullable: true })
   uniqueId(@Root() address: PrismaAddress): string | null {
     // Converte o tipo Bytes (Buffer) do Prisma para uma string hexadecimal.
     // Retorna null se o campo for nulo no banco.
-    return address.AUUID_0 ? Buffer.from(address.AUUID_0).toString('hex') : null;
+    return address.singleID ? Buffer.from(address.singleID).toString('hex') : null;
   }
 }
