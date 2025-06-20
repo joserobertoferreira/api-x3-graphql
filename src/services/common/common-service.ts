@@ -1,7 +1,7 @@
 import { OrderType, Prisma, PrismaClient } from '@prisma/client';
 import prisma from '../../database/config';
 
-interface Ledgers {
+export interface Ledgers {
   LED_0: string;
   LED_1: string;
   LED_2: string;

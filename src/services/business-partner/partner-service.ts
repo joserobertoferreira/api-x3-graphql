@@ -19,15 +19,17 @@ export class BusinessPartnerService {
    * @param include Objeto para incluir relações, como os endereços. Ex: { addresses: true }
    * @returns O objeto BusinessPartner encontrado ou null se não existir.
    */
-  async findBusinessPartnerByCode(
+  async findBusinessPartnerByCode<I extends Prisma.BusinessPartnerInclude>(
     code: string,
-    include?: Prisma.BusinessPartnerInclude,
-  ): Promise<BusinessPartner | null> {
+    include?: I,
+  ): Promise<Prisma.BusinessPartnerGetPayload<{ include: I }> | null> {
     try {
-      return await this.prisma.businessPartner.findUnique({
+      const partner = await this.prisma.businessPartner.findUnique({
         where: { code },
         include,
       });
+
+      return partner as Prisma.BusinessPartnerGetPayload<{ include: I }> | null;
     } catch (error) {
       console.error('Erro ao buscar parceiro de negócio por código:', error);
       throw new Error('Não foi possível buscar o parceiro de negócio.');

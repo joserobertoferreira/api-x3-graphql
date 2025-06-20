@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client';
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
+import { mountPayloadCreateSalesOrder } from '../../../../helpers/sales-order-helper';
 import { ApolloContext } from '../../../../middleware/context-middleware';
 import { generateUUIDBuffer, getAuditTimestamps } from '../../../../utils/audit-dates';
 import { CreateSalesOrderInput } from '../../../inputs/sales-order-input';
@@ -56,22 +57,28 @@ export class SalesOrderMutations {
       complement: '',
     });
 
-    const createPayload: CreateSalesOrderInput = {
-      soldToCustomer: input.soldToCustomer,
-      salesSite: input.salesSite,
-      orderDate: input.orderDate ?? timestamps.date,
-      salesOrderType: input.salesOrderType ?? 'SON',
-      customerOrderReference: input.customerOrderReference ?? '',
-      shipToCustomerAddress: input.shipToCustomerAddress ?? customer.defaultShipToAddress,
-      taxRule: input.taxRule ?? customer.taxRule,
-      currency: input.currency ?? customer.customerCurrency,
-      priceIncludingOrExcludingTax: input.priceIncludingOrExcludingTax ?? customer.priceType,
-      shipmentSite: input.shipmentSite ?? input.salesSite,
-      requestedDeliveryDate: input.requestedDeliveryDate ?? timestamps.date,
-      shipmentDate: input.shipmentDate ?? timestamps.date,
-      paymentTerm: input.paymentTerm ?? customer.paymentTerm,
-      lines: input.lines,
-    };
+    const createPayload = await mountPayloadCreateSalesOrder(
+      input,
+      customer,
+      siteInformation,
+      services.businessPartnerService,
+    );
+    // const createPayload: CreateSalesOrderInput = {
+    //   soldToCustomer: input.soldToCustomer,
+    //   salesSite: input.salesSite,
+    //   orderDate: input.orderDate ?? timestamps.date,
+    //   salesOrderType: input.salesOrderType ?? 'SON',
+    //   customerOrderReference: input.customerOrderReference ?? '',
+    //   shipToCustomerAddress: input.shipToCustomerAddress ?? customer.defaultShipToAddress,
+    //   taxRule: input.taxRule ?? customer.taxRule,
+    //   currency: input.currency ?? customer.customerCurrency,
+    //   priceIncludingOrExcludingTax: input.priceIncludingOrExcludingTax ?? customer.priceType,
+    //   shipmentSite: input.shipmentSite ?? input.salesSite,
+    //   requestedDeliveryDate: input.requestedDeliveryDate ?? timestamps.date,
+    //   shipmentDate: input.shipmentDate ?? timestamps.date,
+    //   paymentTerm: input.paymentTerm ?? customer.paymentTerm,
+    //   lines: input.lines,
+    // };
 
     // 3. Executar a criação dentro de uma transação ---
     const createdOrder = await services.salesOrderService.executeInTransaction(async (tx) => {
@@ -84,7 +91,7 @@ export class SalesOrderMutations {
       const pricesToCreate: Prisma.SalesOrderPriceUncheckedCreateWithoutOrderInput[] = [];
       const analyticalToCreate: Prisma.AnalyticalAccountingLinesUncheckedUpdateWithoutSalesOrderPriceInput[] = [];
 
-      for (const lineInput of createPayload.lines) {
+      for (const lineInput of input.lines) {
         const product = await tx.products.findUnique({ where: { code: lineInput.product } });
         if (!product) {
           throw new Error(`Product ${lineInput.product} not found.`);
@@ -207,37 +214,37 @@ export class SalesOrderMutations {
       const orderHeader = await tx.salesOrder.create({
         data: {
           id: newOrderNumber,
-          company: siteInformation?.legalCompany ?? '',
-          salesSite: createPayload.salesSite,
-          salesOrderType: createPayload.salesOrderType,
-          orderDate: createPayload.orderDate,
-          customerOrderReference: createPayload.customerOrderReference,
-          soldToCustomer: createPayload.soldToCustomer,
-          shipToCustomerAddress: createPayload.shipToCustomerAddress,
-          billToCustomer: customer.billToCustomer,
-          payByBusinessPartner: customer.payByCustomer,
-          payByBusinessPartnerAddress: customer.payByCustomerAddress,
-          groupCustomer: customer.groupCustomer,
-          taxRule: createPayload.taxRule,
-          currency: createPayload.currency,
-          priceIncludingOrExcludingTax: createPayload.priceIncludingOrExcludingTax,
-          shippingSite: createPayload.shipmentSite,
-          shipmentDate: createPayload.shipmentDate,
-          requestedDeliveryDate: createPayload.requestedDeliveryDate,
-          shipToCustomerName1: customer.businessPartner?.companyName1,
-          shipToCustomerName2: customer.businessPartner?.companyName2,
-          soldToCustomerAddress: customer.defaultShipToAddress,
-          dimension1: siteInformation?.dimension1 ?? '',
-          dimension2: siteInformation?.dimension2 ?? '',
-          dimension3: siteInformation?.dimension3 ?? '',
-          dimension4: siteInformation?.dimension4 ?? '',
-          dimension5: siteInformation?.dimension5 ?? '',
-          dimension6: siteInformation?.dimension6 ?? '',
-          createDate: timestamps.date,
-          updateDate: timestamps.date,
-          createDatetime: timestamps.dateTime,
-          updateDatetime: timestamps.dateTime,
-          singleID: headerUUID,
+          ...createPayload,
+          // company: siteInformation?.legalCompany ?? '',
+          // salesSite: createPayload.salesSite,
+          // salesOrderType: createPayload.salesOrderType,
+          // orderDate: createPayload.orderDate,
+          // customerOrderReference: createPayload.customerOrderReference,
+          // soldToCustomer: createPayload.soldToCustomer,
+          // shipToCustomerAddress: createPayload.shipToCustomerAddress,
+          // billToCustomer: customer.billToCustomer,
+          // payByBusinessPartner: customer.payByCustomer,
+          // payByBusinessPartnerAddress: customer.payByCustomerAddress,
+          // groupCustomer: customer.groupCustomer,
+          // taxRule: createPayload.taxRule,
+          // currency: createPayload.currency,
+          // priceIncludingOrExcludingTax: createPayload.priceIncludingOrExcludingTax,
+          // shippingSite: createPayload.shipmentSite,
+          // shipmentDate: createPayload.shipmentDate,
+          // requestedDeliveryDate: createPayload.requestedDeliveryDate,
+          // shipToCustomerName1: customer.businessPartner?.companyName1,
+          // shipToCustomerName2: customer.businessPartner?.companyName2,
+          // soldToCustomerAddress: customer.defaultShipToAddress,
+          // dimension2: siteInformation?.dimension2 ?? '',
+          // dimension3: siteInformation?.dimension3 ?? '',
+          // dimension4: siteInformation?.dimension4 ?? '',
+          // dimension5: siteInformation?.dimension5 ?? '',
+          // dimension6: siteInformation?.dimension6 ?? '',
+          // createDate: timestamps.date,
+          // updateDate: timestamps.date,
+          // createDatetime: timestamps.dateTime,
+          // updateDatetime: timestamps.dateTime,
+          // singleID: headerUUID,
           orderLines: {
             create: linesToCreate,
           },

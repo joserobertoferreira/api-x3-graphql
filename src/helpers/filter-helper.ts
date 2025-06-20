@@ -1,5 +1,3 @@
-// src/graphql/resolvers/customer/CustomerWhere.helper.ts
-
 import { Prisma } from '@prisma/client';
 import { CustomerFilterInput } from '../graphql/inputs/customer-input';
 
