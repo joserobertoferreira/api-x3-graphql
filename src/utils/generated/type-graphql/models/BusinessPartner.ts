@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Address } from "../models/Address";
+import { Customer } from "../models/Customer";
 import { BusinessPartnerCount } from "../resolvers/outputs/BusinessPartnerCount";
 
 @TypeGraphQL.ObjectType("BusinessPartner", {})
@@ -272,6 +273,41 @@ export class BusinessPartner {
   })
   electronicAddress!: string;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  createDate!: Date;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  updateDate!: Date;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  createUser!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  updateUser!: string;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  createDatetime!: Date;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  updateDatetime!: Date;
+
+  @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
+    nullable: false
+  })
+  singleID!: Buffer;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
@@ -310,41 +346,6 @@ export class BusinessPartner {
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  CREUSR_0!: string;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  CREDAT_0!: Date;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: false
-  })
-  UPDUSR_0!: string;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  UPDDAT_0!: Date;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  CREDATTIM_0!: Date;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  UPDDATTIM_0!: Date;
-
-  @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
-    nullable: false
-  })
-  AUUID_0!: Buffer;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: false
-  })
   ZCRMREF_0!: string;
 
   @TypeGraphQL.Field(_type => String, {
@@ -378,6 +379,8 @@ export class BusinessPartner {
   UPDTICK_0!: number;
 
   addresses?: Address[];
+
+  customer?: Customer | null;
 
   @TypeGraphQL.Field(_type => BusinessPartnerCount, {
     nullable: true

@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
 import { Address } from "../models/Address";
+import { BusinessPartner } from "../models/BusinessPartner";
 import { CustomerCount } from "../resolvers/outputs/CustomerCount";
 
 @TypeGraphQL.ObjectType("Customer", {})
@@ -950,7 +951,7 @@ export class Customer {
   @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
     nullable: false
   })
-  uniqueId!: Buffer;
+  singleID!: Buffer;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
@@ -1148,6 +1149,8 @@ export class Customer {
   id!: bigint;
 
   addresses?: Address[];
+
+  businessPartner?: BusinessPartner | null;
 
   @TypeGraphQL.Field(_type => CustomerCount, {
     nullable: true

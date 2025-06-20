@@ -201,6 +201,41 @@ export class SalesOrderLineScalarWhereInput {
   })
   quantityInSalesUnitInvoiced?: DecimalFilter | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeFilter, {
+    nullable: true
+  })
+  createDate?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeFilter, {
+    nullable: true
+  })
+  updateDate?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  createUser?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  updateUser?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeFilter, {
+    nullable: true
+  })
+  createDatetime?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeFilter, {
+    nullable: true
+  })
+  updateDatetime?: DateTimeFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BytesFilter, {
+    nullable: true
+  })
+  singleID?: BytesFilter | undefined;
+
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
   })
@@ -640,41 +675,6 @@ export class SalesOrderLineScalarWhereInput {
     nullable: true
   })
   USELIMDAT_0?: DateTimeFilter | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true
-  })
-  CREDAT_0?: DateTimeFilter | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true
-  })
-  UPDDAT_0?: DateTimeFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true
-  })
-  CREUSR_0?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true
-  })
-  UPDUSR_0?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true
-  })
-  CREDATTIM_0?: DateTimeFilter | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeFilter, {
-    nullable: true
-  })
-  UPDDATTIM_0?: DateTimeFilter | undefined;
-
-  @TypeGraphQL.Field(_type => BytesFilter, {
-    nullable: true
-  })
-  AUUID_0?: BytesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true

@@ -39,27 +39,27 @@ export class SequenceNumbersCountOrderByAggregateInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  CREUSR_0?: "asc" | "desc" | undefined;
+  updateUser?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  UPDUSR_0?: "asc" | "desc" | undefined;
+  createUser?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  CREDATTIM_0?: "asc" | "desc" | undefined;
+  createDatetime?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  UPDDATTIM_0?: "asc" | "desc" | undefined;
+  updateDatetime?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  AUUID_0?: "asc" | "desc" | undefined;
+  singleID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

@@ -1,11 +1,16 @@
 export { AddressScalarFieldEnum } from "./AddressScalarFieldEnum";
+export { AnalyticalAccountingLinesScalarFieldEnum } from "./AnalyticalAccountingLinesScalarFieldEnum";
 export { BusinessPartnerScalarFieldEnum } from "./BusinessPartnerScalarFieldEnum";
+export { CompanyScalarFieldEnum } from "./CompanyScalarFieldEnum";
 export { CountriesScalarFieldEnum } from "./CountriesScalarFieldEnum";
 export { CustomerScalarFieldEnum } from "./CustomerScalarFieldEnum";
+export { DocumentNumbersScalarFieldEnum } from "./DocumentNumbersScalarFieldEnum";
+export { OrderTypeScalarFieldEnum } from "./OrderTypeScalarFieldEnum";
 export { ProductsScalarFieldEnum } from "./ProductsScalarFieldEnum";
 export { SalesOrderLineScalarFieldEnum } from "./SalesOrderLineScalarFieldEnum";
 export { SalesOrderPriceScalarFieldEnum } from "./SalesOrderPriceScalarFieldEnum";
 export { SalesOrderScalarFieldEnum } from "./SalesOrderScalarFieldEnum";
 export { SequenceNumbersScalarFieldEnum } from "./SequenceNumbersScalarFieldEnum";
+export { SiteScalarFieldEnum } from "./SiteScalarFieldEnum";
 export { SortOrder } from "./SortOrder";
 export { TransactionIsolationLevel } from "./TransactionIsolationLevel";

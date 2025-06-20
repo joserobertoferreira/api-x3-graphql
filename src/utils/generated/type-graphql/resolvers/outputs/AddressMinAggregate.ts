@@ -173,37 +173,37 @@ export class AddressMinAggregate {
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  CREDAT_0!: Date | null;
+  createDate!: Date | null;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  UPDDAT_0!: Date | null;
+  updateDate!: Date | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  CREUSR_0!: string | null;
+  updateUser!: string | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  UPDUSR_0!: string | null;
+  createUser!: string | null;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  CREDATTIM_0!: Date | null;
+  createDatetime!: Date | null;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  UPDDATTIM_0!: Date | null;
+  updateDatetime!: Date | null;
 
   @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
     nullable: true
   })
-  AUUID_0!: Buffer | null;
+  singleID!: Buffer | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

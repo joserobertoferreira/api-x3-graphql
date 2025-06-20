@@ -59,27 +59,27 @@ export class SequenceNumbersScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
-  CREUSR_0?: StringWithAggregatesFilter | undefined;
+  updateUser?: StringWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
-  UPDUSR_0?: StringWithAggregatesFilter | undefined;
+  createUser?: StringWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
     nullable: true
   })
-  CREDATTIM_0?: DateTimeWithAggregatesFilter | undefined;
+  createDatetime?: DateTimeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
     nullable: true
   })
-  UPDDATTIM_0?: DateTimeWithAggregatesFilter | undefined;
+  updateDatetime?: DateTimeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => BytesWithAggregatesFilter, {
     nullable: true
   })
-  AUUID_0?: BytesWithAggregatesFilter | undefined;
+  singleID?: BytesWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => BigIntWithAggregatesFilter, {
     nullable: true

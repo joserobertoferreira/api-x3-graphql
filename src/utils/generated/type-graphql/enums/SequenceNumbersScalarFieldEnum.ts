@@ -7,11 +7,11 @@ export enum SequenceNumbersScalarFieldEnum {
   period = "period",
   complement = "complement",
   sequenceValue = "sequenceValue",
-  CREUSR_0 = "CREUSR_0",
-  UPDUSR_0 = "UPDUSR_0",
-  CREDATTIM_0 = "CREDATTIM_0",
-  UPDDATTIM_0 = "UPDDATTIM_0",
-  AUUID_0 = "AUUID_0",
+  updateUser = "updateUser",
+  createUser = "createUser",
+  createDatetime = "createDatetime",
+  updateDatetime = "updateDatetime",
+  singleID = "singleID",
   ROWID = "ROWID"
 }
 TypeGraphQL.registerEnumType(SequenceNumbersScalarFieldEnum, {

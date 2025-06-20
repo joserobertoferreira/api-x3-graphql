@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BigIntFilter } from "../inputs/BigIntFilter";
 import { BusinessPartnerNullableRelationFilter } from "../inputs/BusinessPartnerNullableRelationFilter";
 import { BytesFilter } from "../inputs/BytesFilter";
+import { CompanyNullableRelationFilter } from "../inputs/CompanyNullableRelationFilter";
 import { CustomerNullableRelationFilter } from "../inputs/CustomerNullableRelationFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { IntFilter } from "../inputs/IntFilter";
@@ -195,37 +196,37 @@ export class AddressWhereInput {
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
-  CREDAT_0?: DateTimeFilter | undefined;
+  createDate?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
-  UPDDAT_0?: DateTimeFilter | undefined;
+  updateDate?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  CREUSR_0?: StringFilter | undefined;
+  updateUser?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  UPDUSR_0?: StringFilter | undefined;
+  createUser?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
-  CREDATTIM_0?: DateTimeFilter | undefined;
+  createDatetime?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
-  UPDDATTIM_0?: DateTimeFilter | undefined;
+  updateDatetime?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => BytesFilter, {
     nullable: true
   })
-  AUUID_0?: BytesFilter | undefined;
+  singleID?: BytesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
@@ -296,4 +297,9 @@ export class AddressWhereInput {
     nullable: true
   })
   customer?: CustomerNullableRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => CompanyNullableRelationFilter, {
+    nullable: true
+  })
+  company?: CompanyNullableRelationFilter | undefined;
 }

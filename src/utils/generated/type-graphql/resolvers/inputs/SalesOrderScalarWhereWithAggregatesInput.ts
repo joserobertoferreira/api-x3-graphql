@@ -1734,37 +1734,12 @@ export class SalesOrderScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
-  SRENUM_0?: StringWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
-    nullable: true
-  })
-  CMGNUM_0?: StringWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
-    nullable: true
-  })
-  OPGNUM_0?: StringWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
-    nullable: true
-  })
   marketingOperationType?: StringWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
   priceStructure?: StringWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
-    nullable: true
-  })
-  EXPNUM_0?: IntWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
-    nullable: true
-  })
-  SINUM_0?: StringWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DecimalWithAggregatesFilter, {
     nullable: true
@@ -1869,37 +1844,62 @@ export class SalesOrderScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
     nullable: true
   })
-  CREDAT_0?: DateTimeWithAggregatesFilter | undefined;
+  createDate?: DateTimeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
     nullable: true
   })
-  UPDDAT_0?: DateTimeWithAggregatesFilter | undefined;
+  updateDate?: DateTimeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
-  CREUSR_0?: StringWithAggregatesFilter | undefined;
+  createUser?: StringWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
   })
-  UPDUSR_0?: StringWithAggregatesFilter | undefined;
+  updateUser?: StringWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
     nullable: true
   })
-  CREDATTIM_0?: DateTimeWithAggregatesFilter | undefined;
+  createDatetime?: DateTimeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
     nullable: true
   })
-  UPDDATTIM_0?: DateTimeWithAggregatesFilter | undefined;
+  updateDatetime?: DateTimeWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => BytesWithAggregatesFilter, {
     nullable: true
   })
-  AUUID_0?: BytesWithAggregatesFilter | undefined;
+  singleID?: BytesWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
+    nullable: true
+  })
+  EXPNUM_0?: IntWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
+    nullable: true
+  })
+  SINUM_0?: StringWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
+    nullable: true
+  })
+  SRENUM_0?: StringWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
+    nullable: true
+  })
+  CMGNUM_0?: StringWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
+    nullable: true
+  })
+  OPGNUM_0?: StringWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => DecimalWithAggregatesFilter, {
     nullable: true

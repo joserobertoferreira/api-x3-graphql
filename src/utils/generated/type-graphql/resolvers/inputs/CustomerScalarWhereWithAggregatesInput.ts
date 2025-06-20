@@ -969,7 +969,7 @@ export class CustomerScalarWhereWithAggregatesInput {
   @TypeGraphQL.Field(_type => BytesWithAggregatesFilter, {
     nullable: true
   })
-  uniqueId?: BytesWithAggregatesFilter | undefined;
+  singleID?: BytesWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
     nullable: true

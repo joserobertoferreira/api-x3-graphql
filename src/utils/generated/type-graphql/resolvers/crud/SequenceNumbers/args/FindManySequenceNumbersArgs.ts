@@ -35,5 +35,5 @@ export class FindManySequenceNumbersArgs {
   @TypeGraphQL.Field(_type => [SequenceNumbersScalarFieldEnum], {
     nullable: true
   })
-  distinct?: Array<"UPDTICK_0" | "sequenceNumber" | "siteOrCompany" | "period" | "complement" | "sequenceValue" | "CREUSR_0" | "UPDUSR_0" | "CREDATTIM_0" | "UPDDATTIM_0" | "AUUID_0" | "ROWID"> | undefined;
+  distinct?: Array<"UPDTICK_0" | "sequenceNumber" | "siteOrCompany" | "period" | "complement" | "sequenceValue" | "updateUser" | "createUser" | "createDatetime" | "updateDatetime" | "singleID" | "ROWID"> | undefined;
 }

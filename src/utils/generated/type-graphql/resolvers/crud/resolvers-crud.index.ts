@@ -1,9 +1,14 @@
 export { AddressCrudResolver } from "./Address/AddressCrudResolver";
+export { AnalyticalAccountingLinesCrudResolver } from "./AnalyticalAccountingLines/AnalyticalAccountingLinesCrudResolver";
 export { BusinessPartnerCrudResolver } from "./BusinessPartner/BusinessPartnerCrudResolver";
+export { CompanyCrudResolver } from "./Company/CompanyCrudResolver";
 export { CountriesCrudResolver } from "./Countries/CountriesCrudResolver";
 export { CustomerCrudResolver } from "./Customer/CustomerCrudResolver";
+export { DocumentNumbersCrudResolver } from "./DocumentNumbers/DocumentNumbersCrudResolver";
+export { OrderTypeCrudResolver } from "./OrderType/OrderTypeCrudResolver";
 export { ProductsCrudResolver } from "./Products/ProductsCrudResolver";
 export { SalesOrderCrudResolver } from "./SalesOrder/SalesOrderCrudResolver";
 export { SalesOrderLineCrudResolver } from "./SalesOrderLine/SalesOrderLineCrudResolver";
 export { SalesOrderPriceCrudResolver } from "./SalesOrderPrice/SalesOrderPriceCrudResolver";
 export { SequenceNumbersCrudResolver } from "./SequenceNumbers/SequenceNumbersCrudResolver";
+export { SiteCrudResolver } from "./Site/SiteCrudResolver";

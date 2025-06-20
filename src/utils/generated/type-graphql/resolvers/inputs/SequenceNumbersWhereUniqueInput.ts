@@ -5,6 +5,7 @@ import { DecimalJSScalar } from "../../scalars";
 import { BytesFilter } from "../inputs/BytesFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { DecimalFilter } from "../inputs/DecimalFilter";
+import { DocumentNumbersNullableRelationFilter } from "../inputs/DocumentNumbersNullableRelationFilter";
 import { IntFilter } from "../inputs/IntFilter";
 import { SequenceNumbersSequenceNumberSiteOrCompanyPeriodComplementCompoundUniqueInput } from "../inputs/SequenceNumbersSequenceNumberSiteOrCompanyPeriodComplementCompoundUniqueInput";
 import { SequenceNumbersWhereInput } from "../inputs/SequenceNumbersWhereInput";
@@ -70,25 +71,30 @@ export class SequenceNumbersWhereUniqueInput {
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  CREUSR_0?: StringFilter | undefined;
+  updateUser?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  UPDUSR_0?: StringFilter | undefined;
+  createUser?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
-  CREDATTIM_0?: DateTimeFilter | undefined;
+  createDatetime?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
-  UPDDATTIM_0?: DateTimeFilter | undefined;
+  updateDatetime?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => BytesFilter, {
     nullable: true
   })
-  AUUID_0?: BytesFilter | undefined;
+  singleID?: BytesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DocumentNumbersNullableRelationFilter, {
+    nullable: true
+  })
+  document?: DocumentNumbersNullableRelationFilter | undefined;
 }

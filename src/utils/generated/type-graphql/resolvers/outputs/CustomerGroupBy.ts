@@ -953,7 +953,7 @@ export class CustomerGroupBy {
   @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
     nullable: false
   })
-  uniqueId!: Buffer;
+  singleID!: Buffer;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

@@ -1716,37 +1716,12 @@ export class SalesOrder {
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  SRENUM_0!: string;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: false
-  })
-  CMGNUM_0!: string;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: false
-  })
-  OPGNUM_0!: string;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: false
-  })
   marketingOperationType!: string;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
   priceStructure!: string;
-
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: false
-  })
-  EXPNUM_0!: number;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: false
-  })
-  SINUM_0!: string;
 
   @TypeGraphQL.Field(_type => DecimalJSScalar, {
     nullable: false
@@ -1851,37 +1826,62 @@ export class SalesOrder {
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
-  CREDAT_0!: Date;
+  createDate!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
-  UPDDAT_0!: Date;
+  updateDate!: Date;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  CREUSR_0!: string;
+  createUser!: string;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  UPDUSR_0!: string;
+  updateUser!: string;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
-  CREDATTIM_0!: Date;
+  createDatetime!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
-  UPDDATTIM_0!: Date;
+  updateDatetime!: Date;
 
   @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
     nullable: false
   })
-  AUUID_0!: Buffer;
+  singleID!: Buffer;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: false
+  })
+  EXPNUM_0!: number;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  SINUM_0!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  SRENUM_0!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  CMGNUM_0!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  OPGNUM_0!: string;
 
   @TypeGraphQL.Field(_type => DecimalJSScalar, {
     nullable: false

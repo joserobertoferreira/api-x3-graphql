@@ -270,6 +270,41 @@ export class BusinessPartnerMaxAggregate {
   })
   electronicAddress!: string | null;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  createDate!: Date | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  updateDate!: Date | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  createUser!: string | null;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  updateUser!: string | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  createDatetime!: Date | null;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  updateDatetime!: Date | null;
+
+  @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
+    nullable: true
+  })
+  singleID!: Buffer | null;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
@@ -304,41 +339,6 @@ export class BusinessPartnerMaxAggregate {
     nullable: true
   })
   EXPNUM_0!: number | null;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  CREUSR_0!: string | null;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  CREDAT_0!: Date | null;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  UPDUSR_0!: string | null;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  UPDDAT_0!: Date | null;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  CREDATTIM_0!: Date | null;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  UPDDATTIM_0!: Date | null;
-
-  @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
-    nullable: true
-  })
-  AUUID_0!: Buffer | null;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true

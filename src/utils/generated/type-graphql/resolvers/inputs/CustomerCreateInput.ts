@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AddressCreateNestedManyWithoutCustomerInput } from "../inputs/AddressCreateNestedManyWithoutCustomerInput";
+import { BusinessPartnerCreateNestedOneWithoutCustomerInput } from "../inputs/BusinessPartnerCreateNestedOneWithoutCustomerInput";
 
 @TypeGraphQL.InputType("CustomerCreateInput", {})
 export class CustomerCreateInput {
@@ -10,11 +11,6 @@ export class CustomerCreateInput {
     nullable: true
   })
   UPDTICK_0?: number | undefined;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  customerCode?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -949,7 +945,7 @@ export class CustomerCreateInput {
   @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
     nullable: true
   })
-  uniqueId?: Buffer | undefined;
+  singleID?: Buffer | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
@@ -1150,4 +1146,9 @@ export class CustomerCreateInput {
     nullable: true
   })
   addresses?: AddressCreateNestedManyWithoutCustomerInput | undefined;
+
+  @TypeGraphQL.Field(_type => BusinessPartnerCreateNestedOneWithoutCustomerInput, {
+    nullable: true
+  })
+  businessPartner?: BusinessPartnerCreateNestedOneWithoutCustomerInput | undefined;
 }

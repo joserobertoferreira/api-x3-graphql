@@ -954,7 +954,7 @@ export class CustomerOrderByWithAggregationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  uniqueId?: "asc" | "desc" | undefined;
+  singleID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true

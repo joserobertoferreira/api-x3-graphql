@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AddressUpdateManyWithoutCustomerNestedInput } from "../inputs/AddressUpdateManyWithoutCustomerNestedInput";
 import { BigIntFieldUpdateOperationsInput } from "../inputs/BigIntFieldUpdateOperationsInput";
+import { BusinessPartnerUpdateOneWithoutCustomerNestedInput } from "../inputs/BusinessPartnerUpdateOneWithoutCustomerNestedInput";
 import { BytesFieldUpdateOperationsInput } from "../inputs/BytesFieldUpdateOperationsInput";
 import { DateTimeFieldUpdateOperationsInput } from "../inputs/DateTimeFieldUpdateOperationsInput";
 import { DecimalFieldUpdateOperationsInput } from "../inputs/DecimalFieldUpdateOperationsInput";
@@ -16,11 +17,6 @@ export class CustomerUpdateInput {
     nullable: true
   })
   UPDTICK_0?: IntFieldUpdateOperationsInput | undefined;
-
-  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
-    nullable: true
-  })
-  customerCode?: StringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
@@ -955,7 +951,7 @@ export class CustomerUpdateInput {
   @TypeGraphQL.Field(_type => BytesFieldUpdateOperationsInput, {
     nullable: true
   })
-  uniqueId?: BytesFieldUpdateOperationsInput | undefined;
+  singleID?: BytesFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
     nullable: true
@@ -1156,4 +1152,9 @@ export class CustomerUpdateInput {
     nullable: true
   })
   addresses?: AddressUpdateManyWithoutCustomerNestedInput | undefined;
+
+  @TypeGraphQL.Field(_type => BusinessPartnerUpdateOneWithoutCustomerNestedInput, {
+    nullable: true
+  })
+  businessPartner?: BusinessPartnerUpdateOneWithoutCustomerNestedInput | undefined;
 }

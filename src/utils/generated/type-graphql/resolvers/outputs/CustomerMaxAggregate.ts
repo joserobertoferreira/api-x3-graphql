@@ -948,7 +948,7 @@ export class CustomerMaxAggregate {
   @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
     nullable: true
   })
-  uniqueId!: Buffer | null;
+  singleID!: Buffer | null;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

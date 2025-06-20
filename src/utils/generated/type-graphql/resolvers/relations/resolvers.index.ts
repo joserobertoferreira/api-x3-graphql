@@ -1,7 +1,11 @@
 export { AddressRelationsResolver } from "./Address/AddressRelationsResolver";
 export { BusinessPartnerRelationsResolver } from "./BusinessPartner/BusinessPartnerRelationsResolver";
+export { CompanyRelationsResolver } from "./Company/CompanyRelationsResolver";
 export { CustomerRelationsResolver } from "./Customer/CustomerRelationsResolver";
+export { DocumentNumbersRelationsResolver } from "./DocumentNumbers/DocumentNumbersRelationsResolver";
 export { ProductsRelationsResolver } from "./Products/ProductsRelationsResolver";
 export { SalesOrderRelationsResolver } from "./SalesOrder/SalesOrderRelationsResolver";
 export { SalesOrderLineRelationsResolver } from "./SalesOrderLine/SalesOrderLineRelationsResolver";
 export { SalesOrderPriceRelationsResolver } from "./SalesOrderPrice/SalesOrderPriceRelationsResolver";
+export { SequenceNumbersRelationsResolver } from "./SequenceNumbers/SequenceNumbersRelationsResolver";
+export { SiteRelationsResolver } from "./Site/SiteRelationsResolver";

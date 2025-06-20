@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { DocumentNumbersOrderByWithRelationInput } from "../inputs/DocumentNumbersOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("SequenceNumbersOrderByWithRelationInput", {})
@@ -39,30 +40,35 @@ export class SequenceNumbersOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  CREUSR_0?: "asc" | "desc" | undefined;
+  updateUser?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  UPDUSR_0?: "asc" | "desc" | undefined;
+  createUser?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  CREDATTIM_0?: "asc" | "desc" | undefined;
+  createDatetime?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  UPDDATTIM_0?: "asc" | "desc" | undefined;
+  updateDatetime?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  AUUID_0?: "asc" | "desc" | undefined;
+  singleID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
   ROWID?: "asc" | "desc" | undefined;
+
+  @TypeGraphQL.Field(_type => DocumentNumbersOrderByWithRelationInput, {
+    nullable: true
+  })
+  document?: DocumentNumbersOrderByWithRelationInput | undefined;
 }

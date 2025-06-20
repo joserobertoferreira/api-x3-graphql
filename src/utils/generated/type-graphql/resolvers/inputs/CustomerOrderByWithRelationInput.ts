@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AddressOrderByRelationAggregateInput } from "../inputs/AddressOrderByRelationAggregateInput";
+import { BusinessPartnerOrderByWithRelationInput } from "../inputs/BusinessPartnerOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
 @TypeGraphQL.InputType("CustomerOrderByWithRelationInput", {})
@@ -950,7 +951,7 @@ export class CustomerOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  uniqueId?: "asc" | "desc" | undefined;
+  singleID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -1151,4 +1152,9 @@ export class CustomerOrderByWithRelationInput {
     nullable: true
   })
   addresses?: AddressOrderByRelationAggregateInput | undefined;
+
+  @TypeGraphQL.Field(_type => BusinessPartnerOrderByWithRelationInput, {
+    nullable: true
+  })
+  businessPartner?: BusinessPartnerOrderByWithRelationInput | undefined;
 }

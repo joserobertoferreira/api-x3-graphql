@@ -1,4 +1,4 @@
-import { Company, Prisma, PrismaClient, Site } from '@prisma/client';
+import { Company, Prisma, PrismaClient } from '@prisma/client';
 import prisma from '../../database/config';
 
 export class CompanyService {
@@ -28,12 +28,17 @@ export class CompanyService {
    * @param include Objeto para incluir relações, como empresa. Ex: { company: true }
    * @returns O site encontrado ou null se não existir.
    */
-  async getSiteByCode(code: string, include?: Prisma.SiteInclude): Promise<Site | null> {
+  async getSiteByCode<I extends Prisma.SiteInclude>(
+    code: string,
+    include?: I,
+  ): Promise<Prisma.SiteGetPayload<{ include: I }> | null> {
     try {
-      return await this.prisma.site.findUnique({
+      const site = await this.prisma.site.findUnique({
         where: { siteCode: code },
         include,
       });
+
+      return site as Prisma.SiteGetPayload<{ include: I }> | null;
     } catch (error) {
       console.error('Erro ao buscar site por ID:', error);
       throw new Error('Não foi possível buscar o site.');

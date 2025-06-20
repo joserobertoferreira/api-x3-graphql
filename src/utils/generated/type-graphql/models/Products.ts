@@ -608,6 +608,41 @@ export class Products {
   })
   configuratorProductLine!: string;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  createDate!: Date;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  updateDate!: Date;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  createUser!: string;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: false
+  })
+  updateUser!: string;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  createDatetime!: Date;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: false
+  })
+  updateDatetime!: Date;
+
+  @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
+    nullable: false
+  })
+  singleID!: Buffer;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false
   })
@@ -997,41 +1032,6 @@ export class Products {
     nullable: false
   })
   ALGBOM_0!: number;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  CREDAT_0!: Date;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  UPDDAT_0!: Date;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: false
-  })
-  CREUSR_0!: string;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: false
-  })
-  UPDUSR_0!: string;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  CREDATTIM_0!: Date;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: false
-  })
-  UPDDATTIM_0!: Date;
-
-  @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
-    nullable: false
-  })
-  AUUID_0!: Buffer;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: false

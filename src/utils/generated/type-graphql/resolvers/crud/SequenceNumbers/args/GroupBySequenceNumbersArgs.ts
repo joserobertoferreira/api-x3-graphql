@@ -20,7 +20,7 @@ export class GroupBySequenceNumbersArgs {
   @TypeGraphQL.Field(_type => [SequenceNumbersScalarFieldEnum], {
     nullable: false
   })
-  by!: Array<"UPDTICK_0" | "sequenceNumber" | "siteOrCompany" | "period" | "complement" | "sequenceValue" | "CREUSR_0" | "UPDUSR_0" | "CREDATTIM_0" | "UPDDATTIM_0" | "AUUID_0" | "ROWID">;
+  by!: Array<"UPDTICK_0" | "sequenceNumber" | "siteOrCompany" | "period" | "complement" | "sequenceValue" | "updateUser" | "createUser" | "createDatetime" | "updateDatetime" | "singleID" | "ROWID">;
 
   @TypeGraphQL.Field(_type => SequenceNumbersScalarWhereWithAggregatesInput, {
     nullable: true

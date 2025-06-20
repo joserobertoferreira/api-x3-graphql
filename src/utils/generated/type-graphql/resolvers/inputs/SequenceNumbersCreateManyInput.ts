@@ -38,25 +38,25 @@ export class SequenceNumbersCreateManyInput {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  CREUSR_0?: string | undefined;
+  updateUser?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  UPDUSR_0?: string | undefined;
+  createUser?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  CREDATTIM_0?: Date | undefined;
+  createDatetime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  UPDDATTIM_0?: Date | undefined;
+  updateDatetime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
     nullable: true
   })
-  AUUID_0?: Buffer | undefined;
+  singleID?: Buffer | undefined;
 }

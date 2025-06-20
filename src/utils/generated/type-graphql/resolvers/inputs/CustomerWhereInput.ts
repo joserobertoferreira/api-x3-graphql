@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { AddressListRelationFilter } from "../inputs/AddressListRelationFilter";
 import { BigIntFilter } from "../inputs/BigIntFilter";
+import { BusinessPartnerNullableRelationFilter } from "../inputs/BusinessPartnerNullableRelationFilter";
 import { BytesFilter } from "../inputs/BytesFilter";
 import { DateTimeFilter } from "../inputs/DateTimeFilter";
 import { DecimalFilter } from "../inputs/DecimalFilter";
@@ -970,7 +971,7 @@ export class CustomerWhereInput {
   @TypeGraphQL.Field(_type => BytesFilter, {
     nullable: true
   })
-  uniqueId?: BytesFilter | undefined;
+  singleID?: BytesFilter | undefined;
 
   @TypeGraphQL.Field(_type => IntFilter, {
     nullable: true
@@ -1171,4 +1172,9 @@ export class CustomerWhereInput {
     nullable: true
   })
   addresses?: AddressListRelationFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BusinessPartnerNullableRelationFilter, {
+    nullable: true
+  })
+  businessPartner?: BusinessPartnerNullableRelationFilter | undefined;
 }

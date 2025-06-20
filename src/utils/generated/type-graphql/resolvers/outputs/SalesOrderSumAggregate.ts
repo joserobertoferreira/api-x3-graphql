@@ -765,11 +765,6 @@ export class SalesOrderSumAggregate {
   })
   taxableAmount!: Prisma.Decimal | null;
 
-  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
-    nullable: true
-  })
-  EXPNUM_0!: number | null;
-
   @TypeGraphQL.Field(_type => DecimalJSScalar, {
     nullable: true
   })
@@ -799,6 +794,11 @@ export class SalesOrderSumAggregate {
     nullable: true
   })
   isValidatedAddress!: number | null;
+
+  @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
+    nullable: true
+  })
+  EXPNUM_0!: number | null;
 
   @TypeGraphQL.Field(_type => DecimalJSScalar, {
     nullable: true

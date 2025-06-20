@@ -19,11 +19,6 @@ export class CustomerUpdateManyMutationInput {
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
-  customerCode?: StringFieldUpdateOperationsInput | undefined;
-
-  @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
-    nullable: true
-  })
   customerName?: StringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
@@ -954,7 +949,7 @@ export class CustomerUpdateManyMutationInput {
   @TypeGraphQL.Field(_type => BytesFieldUpdateOperationsInput, {
     nullable: true
   })
-  uniqueId?: BytesFieldUpdateOperationsInput | undefined;
+  singleID?: BytesFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => IntFieldUpdateOperationsInput, {
     nullable: true

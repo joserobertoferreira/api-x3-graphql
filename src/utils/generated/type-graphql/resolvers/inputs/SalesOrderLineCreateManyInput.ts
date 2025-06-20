@@ -180,6 +180,41 @@ export class SalesOrderLineCreateManyInput {
   })
   quantityInSalesUnitInvoiced?: Prisma.Decimal | undefined;
 
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  createDate?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  updateDate?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  createUser?: string | undefined;
+
+  @TypeGraphQL.Field(_type => String, {
+    nullable: true
+  })
+  updateUser?: string | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  createDatetime?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => Date, {
+    nullable: true
+  })
+  updateDatetime?: Date | undefined;
+
+  @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
+    nullable: true
+  })
+  singleID?: Buffer | undefined;
+
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true
   })
@@ -619,41 +654,6 @@ export class SalesOrderLineCreateManyInput {
     nullable: true
   })
   USELIMDAT_0?: Date | undefined;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  CREDAT_0?: Date | undefined;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  UPDDAT_0?: Date | undefined;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  CREUSR_0?: string | undefined;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  UPDUSR_0?: string | undefined;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  CREDATTIM_0?: Date | undefined;
-
-  @TypeGraphQL.Field(_type => Date, {
-    nullable: true
-  })
-  UPDDATTIM_0?: Date | undefined;
-
-  @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
-    nullable: true
-  })
-  AUUID_0?: Buffer | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

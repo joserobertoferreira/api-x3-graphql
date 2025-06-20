@@ -295,7 +295,6 @@ input ProductsWhereInput {
   ALG_0: StringFilter
   ALTBOMHDK_0: IntFilter
   AND: [ProductsWhereInput!]
-  AUUID_0: BytesFilter
   BUY_0: StringFilter
   CFGBPRNUM_0: StringFilter
   CFGBPRREF_0: StringFilter
@@ -316,10 +315,7 @@ input ProductsWhereInput {
   CFGVCRNUM_0: StringFilter
   CPRAMT_0: DecimalFilter
   CPRCOE_0: DecimalFilter
-  CREDATTIM_0: DateTimeFilter
-  CREDAT_0: DateTimeFilter
   CREMAC_0: IntFilter
-  CREUSR_0: StringFilter
   DAYUOM_0: StringFilter
   DLU_0: DecimalFilter
   DLVFLG_0: IntFilter
@@ -392,10 +388,7 @@ input ProductsWhereInput {
   TRKCOD_0: IntFilter
   TRKLEV_0: IntFilter
   UNNBR_0: StringFilter
-  UPDDATTIM_0: DateTimeFilter
-  UPDDAT_0: DateTimeFilter
   UPDTICK_0: IntFilter
-  UPDUSR_0: StringFilter
   YCBFLAG_0: IntFilter
   YCBINTS_0: DecimalFilter
   YCBORIG_0: StringFilter
@@ -407,6 +400,9 @@ input ProductsWhereInput {
   company: StringFilter
   configuratorProductLine: StringFilter
   costGroup: StringFilter
+  createDate: DateTimeFilter
+  createDatetime: DateTimeFilter
+  createUser: StringFilter
   defaultPotencyInInternationalUnit: DecimalFilter
   defaultPotencyInPercentage: DecimalFilter
   description1: StringFilter
@@ -507,6 +503,7 @@ input ProductsWhereInput {
   serialSequenceNumber: StringFilter
   serviceLifeEndDate: DateTimeFilter
   serviceLifeStartDate: DateTimeFilter
+  singleID: BytesFilter
   standard: StringFilter
   statisticalUnit: StringFilter
   statisticalUnitToStockUnitConversionFactor: DecimalFilter
@@ -517,6 +514,9 @@ input ProductsWhereInput {
   taxLevel2: StringFilter
   taxLevel3: StringFilter
   upc: StringFilter
+  updateDate: DateTimeFilter
+  updateDatetime: DateTimeFilter
+  updateUser: StringFilter
   userAccessCode: StringFilter
   volumeUnit: StringFilter
   weightUnit: StringFilter
@@ -629,15 +629,11 @@ input SalesOrderLineWhereInput {
   ALLQTYSTU_0: DecimalFilter
   ALLTYP_0: IntFilter
   AND: [SalesOrderLineWhereInput!]
-  AUUID_0: BytesFilter
   BASTAXLIN_0: DecimalFilter
   BPTNUM_0: StringFilter
   CAD_0: IntFilter
   CCLDAT_0: DateTimeFilter
   CCLREN_0: StringFilter
-  CREDATTIM_0: DateTimeFilter
-  CREDAT_0: DateTimeFilter
-  CREUSR_0: StringFilter
   DAYLTI_0: IntFilter
   DDTANOT_0: DecimalFilter
   DDTANOT_1: DecimalFilter
@@ -722,10 +718,7 @@ input SalesOrderLineWhereInput {
   TAXREGFLG_0: IntFilter
   TDLQTYSTU_0: DecimalFilter
   TDLQTY_0: DecimalFilter
-  UPDDATTIM_0: DateTimeFilter
-  UPDDAT_0: DateTimeFilter
   UPDTICK_0: IntFilter
-  UPDUSR_0: StringFilter
   USELIMDAT_0: DateTimeFilter
   VTC_0: StringFilter
   VTS_0: StringFilter
@@ -733,6 +726,9 @@ input SalesOrderLineWhereInput {
   YEA_0: IntFilter
   category: IntFilter
   company: StringFilter
+  createDate: DateTimeFilter
+  createDatetime: DateTimeFilter
+  createUser: StringFilter
   expectedDeliveryDate: DateTimeFilter
   isInvoiced: IntFilter
   latestDeliveryDate: DateTimeFilter
@@ -765,7 +761,11 @@ input SalesOrderLineWhereInput {
   shipmentDate: DateTimeFilter
   shipmentTime: StringFilter
   shippingSite: StringFilter
+  singleID: BytesFilter
   soldToCustomer: StringFilter
+  updateDate: DateTimeFilter
+  updateDatetime: DateTimeFilter
+  updateUser: StringFilter
   workInProgressNumber: StringFilter
   workInProgressStatus: IntFilter
 }
@@ -788,12 +788,8 @@ input SalesOrderPriceNullableRelationFilter {
 
 input SalesOrderPriceWhereInput {
   AND: [SalesOrderPriceWhereInput!]
-  AUUID_0: BytesFilter
   BPCSALPRI_0: DecimalFilter
   CONNUM_0: StringFilter
-  CREDATTIM_0: DateTimeFilter
-  CREDAT_0: DateTimeFilter
-  CREUSR_0: StringFilter
   ENDDAT_0: DateTimeFilter
   EXPNUM_0: IntFilter
   INVCND_0: StringFilter
@@ -804,16 +800,16 @@ input SalesOrderPriceWhereInput {
   ROWID: BigIntFilter
   SSTCOD_0: StringFilter
   STRDAT_0: DateTimeFilter
-  UPDDATTIM_0: DateTimeFilter
-  UPDDAT_0: DateTimeFilter
   UPDTICK_0: IntFilter
-  UPDUSR_0: StringFilter
   billToCustomer: StringFilter
   calculatedTaxableBase1: DecimalFilter
   calculatedTaxableBase2: DecimalFilter
   category: IntFilter
   company: StringFilter
   costPrice: DecimalFilter
+  createDate: DateTimeFilter
+  createDatetime: DateTimeFilter
+  createUser: StringFilter
   customerProduct: StringFilter
   discountOrCharge1: DecimalFilter
   discountOrCharge2: DecimalFilter
@@ -870,6 +866,7 @@ input SalesOrderPriceWhereInput {
   shipToCustomerAddress: StringFilter
   shipToCustomerContact: StringFilter
   shippingSite: StringFilter
+  singleID: BytesFilter
   soldToCustomer: StringFilter
   stockUnit: StringFilter
   tax1: StringFilter
@@ -878,15 +875,14 @@ input SalesOrderPriceWhereInput {
   taxLevel1: StringFilter
   taxLevel2: StringFilter
   taxLevel3: StringFilter
+  updateDate: DateTimeFilter
+  updateDatetime: DateTimeFilter
+  updateUser: StringFilter
 }
 
 input SalesOrderWhereInput {
   AND: [SalesOrderWhereInput!]
-  AUUID_0: BytesFilter
   CMGNUM_0: StringFilter
-  CREDATTIM_0: DateTimeFilter
-  CREDAT_0: DateTimeFilter
-  CREUSR_0: StringFilter
   DRAFTREJREN_0: StringFilter
   DRAFTREJ_0: IntFilter
   DRAFTSTATUS_0: IntFilter
@@ -904,10 +900,7 @@ input SalesOrderWhereInput {
   SOHNUMEND_0: StringFilter
   SOHVALDAT_0: DateTimeFilter
   SRENUM_0: StringFilter
-  UPDDATTIM_0: DateTimeFilter
-  UPDDAT_0: DateTimeFilter
   UPDTICK_0: IntFilter
-  UPDUSR_0: StringFilter
   VLYDATCON_0: DateTimeFilter
   XDADVGRO_0: DecimalFilter
   additionnalReference: StringFilter
@@ -932,6 +925,9 @@ input SalesOrderWhereInput {
   closingDate: DateTimeFilter
   closingReason: StringFilter
   company: StringFilter
+  createDate: DateTimeFilter
+  createDatetime: DateTimeFilter
+  createUser: StringFilter
   creditLevelStatus: IntFilter
   currency: StringFilter
   currencyRate: DecimalFilter
@@ -1215,6 +1211,7 @@ input SalesOrderWhereInput {
   shipperOrReceiverCode: StringFilter
   shippingSite: StringFilter
   signatureStatus: IntFilter
+  singleID: BytesFilter
   soldAddressLine1: StringFilter
   soldAddressLine2: StringFilter
   soldAddressLine3: StringFilter
@@ -1241,6 +1238,9 @@ input SalesOrderWhereInput {
   totalQuantityDistributedOnLines: DecimalFilter
   totalVolumeDistributedOnLines: DecimalFilter
   totalWeightDistributedOnLines: DecimalFilter
+  updateDate: DateTimeFilter
+  updateDatetime: DateTimeFilter
+  updateUser: StringFilter
   valueType1: IntFilter
   valueType2: IntFilter
   valueType3: IntFilter

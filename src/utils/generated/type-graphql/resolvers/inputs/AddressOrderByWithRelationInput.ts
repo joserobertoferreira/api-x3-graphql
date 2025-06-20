@@ -3,6 +3,7 @@ import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
 import { BusinessPartnerOrderByWithRelationInput } from "../inputs/BusinessPartnerOrderByWithRelationInput";
+import { CompanyOrderByWithRelationInput } from "../inputs/CompanyOrderByWithRelationInput";
 import { CustomerOrderByWithRelationInput } from "../inputs/CustomerOrderByWithRelationInput";
 import { SortOrder } from "../../enums/SortOrder";
 
@@ -176,37 +177,37 @@ export class AddressOrderByWithRelationInput {
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  CREDAT_0?: "asc" | "desc" | undefined;
+  createDate?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  UPDDAT_0?: "asc" | "desc" | undefined;
+  updateDate?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  CREUSR_0?: "asc" | "desc" | undefined;
+  updateUser?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  UPDUSR_0?: "asc" | "desc" | undefined;
+  createUser?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  CREDATTIM_0?: "asc" | "desc" | undefined;
+  createDatetime?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  UPDDATTIM_0?: "asc" | "desc" | undefined;
+  updateDatetime?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
   })
-  AUUID_0?: "asc" | "desc" | undefined;
+  singleID?: "asc" | "desc" | undefined;
 
   @TypeGraphQL.Field(_type => SortOrder, {
     nullable: true
@@ -277,4 +278,9 @@ export class AddressOrderByWithRelationInput {
     nullable: true
   })
   customer?: CustomerOrderByWithRelationInput | undefined;
+
+  @TypeGraphQL.Field(_type => CompanyOrderByWithRelationInput, {
+    nullable: true
+  })
+  company?: CompanyOrderByWithRelationInput | undefined;
 }

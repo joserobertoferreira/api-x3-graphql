@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../scalars";
+import { DocumentNumbers } from "../models/DocumentNumbers";
 
 @TypeGraphQL.ObjectType("SequenceNumbers", {})
 export class SequenceNumbers {
@@ -38,30 +39,32 @@ export class SequenceNumbers {
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  CREUSR_0!: string;
+  updateUser!: string;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  UPDUSR_0!: string;
+  createUser!: string;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
-  CREDATTIM_0!: Date;
+  createDatetime!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
-  UPDDATTIM_0!: Date;
+  updateDatetime!: Date;
 
   @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
     nullable: false
   })
-  AUUID_0!: Buffer;
+  singleID!: Buffer;
 
   @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
     nullable: false
   })
   ROWID!: bigint;
+
+  document?: DocumentNumbers | null;
 }

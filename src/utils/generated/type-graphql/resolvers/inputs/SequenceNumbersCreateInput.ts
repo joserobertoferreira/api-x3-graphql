@@ -2,6 +2,7 @@ import * as TypeGraphQL from "type-graphql";
 import * as GraphQLScalars from "graphql-scalars";
 import { Prisma } from "@prisma/client";
 import { DecimalJSScalar } from "../../scalars";
+import { DocumentNumbersCreateNestedOneWithoutSequenceValuesInput } from "../inputs/DocumentNumbersCreateNestedOneWithoutSequenceValuesInput";
 
 @TypeGraphQL.InputType("SequenceNumbersCreateInput", {})
 export class SequenceNumbersCreateInput {
@@ -9,11 +10,6 @@ export class SequenceNumbersCreateInput {
     nullable: true
   })
   UPDTICK_0?: number | undefined;
-
-  @TypeGraphQL.Field(_type => String, {
-    nullable: true
-  })
-  sequenceNumber?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
@@ -38,30 +34,35 @@ export class SequenceNumbersCreateInput {
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  CREUSR_0?: string | undefined;
+  updateUser?: string | undefined;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: true
   })
-  UPDUSR_0?: string | undefined;
+  createUser?: string | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  CREDATTIM_0?: Date | undefined;
+  createDatetime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: true
   })
-  UPDDATTIM_0?: Date | undefined;
+  updateDatetime?: Date | undefined;
 
   @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
     nullable: true
   })
-  AUUID_0?: Buffer | undefined;
+  singleID?: Buffer | undefined;
 
   @TypeGraphQL.Field(_type => GraphQLScalars.BigIntResolver, {
     nullable: true
   })
   ROWID?: bigint | undefined;
+
+  @TypeGraphQL.Field(_type => DocumentNumbersCreateNestedOneWithoutSequenceValuesInput, {
+    nullable: true
+  })
+  document?: DocumentNumbersCreateNestedOneWithoutSequenceValuesInput | undefined;
 }

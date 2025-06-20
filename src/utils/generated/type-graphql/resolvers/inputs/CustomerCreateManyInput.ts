@@ -948,7 +948,7 @@ export class CustomerCreateManyInput {
   @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
     nullable: true
   })
-  uniqueId?: Buffer | undefined;
+  singleID?: Buffer | undefined;
 
   @TypeGraphQL.Field(_type => TypeGraphQL.Int, {
     nullable: true

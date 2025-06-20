@@ -31,12 +31,16 @@ export class CustomerService {
    * @param include Objeto para incluir relações. Ex: { addresses: true }
    * @returns O objeto Customer encontrado ou null se não existir.
    */
-  async findCustomerByCode(customerCode: string, include?: Prisma.CustomerInclude): Promise<Customer | null> {
+  async findCustomerByCode<I extends Prisma.CustomerInclude>(
+    customerCode: string,
+    include?: I,
+  ): Promise<Prisma.CustomerGetPayload<{ include: I }> | null> {
     try {
-      return await this.prisma.customer.findUnique({
+      const customer = await this.prisma.customer.findUnique({
         where: { customerCode },
         include,
       });
+      return customer as Prisma.CustomerGetPayload<{ include: I }> | null;
     } catch (error) {
       console.error('Erro ao buscar cliente por código:', error);
       throw new Error('Não foi possível buscar o cliente.');
@@ -48,15 +52,23 @@ export class CustomerService {
    * @param args Argumentos de busca { where, orderBy, skip, take, include }.
    * @returns Um array de objetos Customer.
    */
-  async findCustomers({ where, orderBy, skip, take, include }: FindCustomersArgs): Promise<Customer[]> {
+  async findCustomers<I extends Prisma.CustomerInclude>({
+    where,
+    orderBy,
+    skip,
+    take,
+    include,
+  }: FindCustomersArgs): Promise<Prisma.CustomerGetPayload<{ include: I }>[]> {
     try {
-      return await this.prisma.customer.findMany({
+      const customers = await this.prisma.customer.findMany({
         where,
         orderBy,
         skip,
         take,
         include,
       });
+
+      return customers as Prisma.CustomerGetPayload<{ include: I }>[];
     } catch (error) {
       console.error('Erro ao buscar lista de clientes:', error);
       throw new Error('Não foi possível buscar os clientes.');

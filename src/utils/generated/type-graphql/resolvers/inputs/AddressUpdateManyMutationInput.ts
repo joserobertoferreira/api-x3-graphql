@@ -173,37 +173,37 @@ export class AddressUpdateManyMutationInput {
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
-  CREDAT_0?: DateTimeFieldUpdateOperationsInput | undefined;
+  createDate?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
-  UPDDAT_0?: DateTimeFieldUpdateOperationsInput | undefined;
+  updateDate?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
-  CREUSR_0?: StringFieldUpdateOperationsInput | undefined;
+  updateUser?: StringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true
   })
-  UPDUSR_0?: StringFieldUpdateOperationsInput | undefined;
+  createUser?: StringFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
-  CREDATTIM_0?: DateTimeFieldUpdateOperationsInput | undefined;
+  createDatetime?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFieldUpdateOperationsInput, {
     nullable: true
   })
-  UPDDATTIM_0?: DateTimeFieldUpdateOperationsInput | undefined;
+  updateDatetime?: DateTimeFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => BytesFieldUpdateOperationsInput, {
     nullable: true
   })
-  AUUID_0?: BytesFieldUpdateOperationsInput | undefined;
+  singleID?: BytesFieldUpdateOperationsInput | undefined;
 
   @TypeGraphQL.Field(_type => StringFieldUpdateOperationsInput, {
     nullable: true

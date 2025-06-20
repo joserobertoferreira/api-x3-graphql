@@ -1747,37 +1747,12 @@ export class SalesOrderWhereUniqueInput {
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  SRENUM_0?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true
-  })
-  CMGNUM_0?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true
-  })
-  OPGNUM_0?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true
-  })
   marketingOperationType?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
   priceStructure?: StringFilter | undefined;
-
-  @TypeGraphQL.Field(_type => IntFilter, {
-    nullable: true
-  })
-  EXPNUM_0?: IntFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringFilter, {
-    nullable: true
-  })
-  SINUM_0?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => DecimalFilter, {
     nullable: true
@@ -1882,37 +1857,62 @@ export class SalesOrderWhereUniqueInput {
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
-  CREDAT_0?: DateTimeFilter | undefined;
+  createDate?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
-  UPDDAT_0?: DateTimeFilter | undefined;
+  updateDate?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  CREUSR_0?: StringFilter | undefined;
+  createUser?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringFilter, {
     nullable: true
   })
-  UPDUSR_0?: StringFilter | undefined;
+  updateUser?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
-  CREDATTIM_0?: DateTimeFilter | undefined;
+  createDatetime?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => DateTimeFilter, {
     nullable: true
   })
-  UPDDATTIM_0?: DateTimeFilter | undefined;
+  updateDatetime?: DateTimeFilter | undefined;
 
   @TypeGraphQL.Field(_type => BytesFilter, {
     nullable: true
   })
-  AUUID_0?: BytesFilter | undefined;
+  singleID?: BytesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => IntFilter, {
+    nullable: true
+  })
+  EXPNUM_0?: IntFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  SINUM_0?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  SRENUM_0?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  CMGNUM_0?: StringFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringFilter, {
+    nullable: true
+  })
+  OPGNUM_0?: StringFilter | undefined;
 
   @TypeGraphQL.Field(_type => DecimalFilter, {
     nullable: true

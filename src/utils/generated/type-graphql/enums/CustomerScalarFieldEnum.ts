@@ -189,7 +189,7 @@ export enum CustomerScalarFieldEnum {
   updateDate = "updateDate",
   createDatetime = "createDatetime",
   updateDatetime = "updateDatetime",
-  uniqueId = "uniqueId",
+  singleID = "singleID",
   paymentDay0 = "paymentDay0",
   paymentDay1 = "paymentDay1",
   paymentDay2 = "paymentDay2",

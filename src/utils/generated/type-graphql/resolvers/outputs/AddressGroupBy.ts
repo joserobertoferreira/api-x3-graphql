@@ -178,37 +178,37 @@ export class AddressGroupBy {
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
-  CREDAT_0!: Date;
+  createDate!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
-  UPDDAT_0!: Date;
+  updateDate!: Date;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  CREUSR_0!: string;
+  updateUser!: string;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false
   })
-  UPDUSR_0!: string;
+  createUser!: string;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
-  CREDATTIM_0!: Date;
+  createDatetime!: Date;
 
   @TypeGraphQL.Field(_type => Date, {
     nullable: false
   })
-  UPDDATTIM_0!: Date;
+  updateDatetime!: Date;
 
   @TypeGraphQL.Field(_type => GraphQLScalars.ByteResolver, {
     nullable: false
   })
-  AUUID_0!: Buffer;
+  singleID!: Buffer;
 
   @TypeGraphQL.Field(_type => String, {
     nullable: false

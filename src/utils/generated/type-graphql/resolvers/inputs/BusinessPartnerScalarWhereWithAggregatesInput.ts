@@ -290,6 +290,41 @@ export class BusinessPartnerScalarWhereWithAggregatesInput {
   })
   electronicAddress?: StringWithAggregatesFilter | undefined;
 
+  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
+    nullable: true
+  })
+  createDate?: DateTimeWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
+    nullable: true
+  })
+  updateDate?: DateTimeWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
+    nullable: true
+  })
+  createUser?: StringWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
+    nullable: true
+  })
+  updateUser?: StringWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
+    nullable: true
+  })
+  createDatetime?: DateTimeWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
+    nullable: true
+  })
+  updateDatetime?: DateTimeWithAggregatesFilter | undefined;
+
+  @TypeGraphQL.Field(_type => BytesWithAggregatesFilter, {
+    nullable: true
+  })
+  singleID?: BytesWithAggregatesFilter | undefined;
+
   @TypeGraphQL.Field(_type => IntWithAggregatesFilter, {
     nullable: true
   })
@@ -324,41 +359,6 @@ export class BusinessPartnerScalarWhereWithAggregatesInput {
     nullable: true
   })
   EXPNUM_0?: IntWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
-    nullable: true
-  })
-  CREUSR_0?: StringWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
-    nullable: true
-  })
-  CREDAT_0?: DateTimeWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
-    nullable: true
-  })
-  UPDUSR_0?: StringWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
-    nullable: true
-  })
-  UPDDAT_0?: DateTimeWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
-    nullable: true
-  })
-  CREDATTIM_0?: DateTimeWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => DateTimeWithAggregatesFilter, {
-    nullable: true
-  })
-  UPDDATTIM_0?: DateTimeWithAggregatesFilter | undefined;
-
-  @TypeGraphQL.Field(_type => BytesWithAggregatesFilter, {
-    nullable: true
-  })
-  AUUID_0?: BytesWithAggregatesFilter | undefined;
 
   @TypeGraphQL.Field(_type => StringWithAggregatesFilter, {
     nullable: true
