@@ -1,4 +1,5 @@
 import { OrderType, Prisma, PrismaClient } from '@prisma/client';
+import { Decimal } from '@prisma/client/runtime/library';
 import prisma from '../../database/config';
 
 export interface Ledgers {
@@ -12,6 +13,11 @@ export interface Ledgers {
   LED_7: string;
   LED_8: string;
   LED_9: string;
+}
+
+interface TabRatVatRecord {
+  STRDAT_0: Date;
+  VATRAT_0: Decimal;
 }
 
 export class CommonService {
@@ -133,6 +139,70 @@ export class CommonService {
     } catch (error) {
       console.error('Erro ao buscar planos de contas dos referenciais:', error);
       return [];
+    }
+  }
+
+  /**
+   * Encontra a taxa de IVA (VATRAT_0) aplicável para uma determinada chave e data de referência.
+   *
+   * @param vatCode - O código do IVA (VAT_0).
+   * @param referenceDate - A data para a qual a taxa deve ser encontrada.
+   * @returns A taxa de IVA (VATRAT_0) aplicável ou null se nenhuma for encontrada.
+   */
+  async getTaxRate(vatCode: string, referenceDate: Date): Promise<Decimal | null> {
+    const dbSchema = process.env.DB_SCHEMA;
+
+    if (!dbSchema) {
+      console.error('Erro: Variável de ambiente DB_SCHEMA não está definida.');
+      throw new Error('Configuração de schema do banco de dados em falta.');
+    }
+
+    let lastReadVatRate: Decimal | null = null;
+
+    // Para garantir que estamos a comparar apenas a parte da data
+    // e evitar problemas com fuso horário/horas, convertemos referenceDate para o início do dia em UTC.
+    const refDateStartOfDay = new Date(
+      Date.UTC(referenceDate.getUTCFullYear(), referenceDate.getUTCMonth(), referenceDate.getUTCDate()),
+    );
+
+    try {
+      const results: TabRatVatRecord[] = await this.prisma.$queryRaw<TabRatVatRecord[]>(
+        Prisma.sql`
+          SELECT STRDAT_0, VATRAT_0
+          FROM ${Prisma.raw(dbSchema)}.TABRATVAT
+          WHERE VAT_0 = ${vatCode}
+          ORDER BY VAT_0, LEG_0, CPY_0, STRDAT_0
+        `,
+      );
+
+      if (results.length === 0) {
+        return null;
+      }
+
+      let testDate: Date | null = null;
+
+      for (const record of results) {
+        lastReadVatRate = new Decimal(record.VATRAT_0); // Guardar sempre a última taxa lida
+
+        // Normalizar STRDAT_0 para o início do dia em UTC para comparação consistente
+        const recordStrDatStartOfDay = new Date(
+          Date.UTC(record.STRDAT_0.getUTCFullYear(), record.STRDAT_0.getUTCMonth(), record.STRDAT_0.getUTCDate()),
+        );
+
+        if (testDate === null) {
+          testDate = recordStrDatStartOfDay;
+        } else {
+          if (refDateStartOfDay >= testDate && refDateStartOfDay < recordStrDatStartOfDay) {
+            return lastReadVatRate;
+          } else {
+            testDate = recordStrDatStartOfDay;
+          }
+        }
+      }
+      return lastReadVatRate;
+    } catch (error) {
+      console.error('Erro ao buscar ou processar taxas de IVA:', error);
+      throw error;
     }
   }
 }
