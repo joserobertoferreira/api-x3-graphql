@@ -1,6 +1,8 @@
 import { OrderType, Prisma, PrismaClient } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 import prisma from '../../database/config';
+import { getGreatestValidDate } from '../../utils/audit-dates';
+import { DEFAULT_LEGACY_DATE } from '../../utils/constants-utils';
 
 export interface Ledgers {
   LED_0: string;
@@ -19,6 +21,18 @@ interface TabRatVatRecord {
   STRDAT_0: Date;
   VATRAT_0: Decimal;
 }
+
+interface TabRatCurRecord {
+  CUR_0: string;
+  EURFLG_0: number;
+  EURRAT_0: Decimal;
+  EURDAT_0: Date;
+}
+
+export type RateCurrency = {
+  rate: Decimal;
+  status: number;
+};
 
 export class CommonService {
   constructor(private prisma: PrismaClient) {}
@@ -105,7 +119,7 @@ export class CommonService {
     try {
       const results: { COA_0: string }[] = await this.prisma.$queryRaw(
         Prisma.sql`
-          SELECT COA_0 FROM ${Prisma.raw(dbSchema)}.GLED WHERE GCM_0 = ${ledger}`,
+          SELECT COA_0 FROM ${Prisma.raw(dbSchema)}.GLED WHERE LED_0 = ${ledger}`,
       );
 
       return results[0]?.COA_0 ?? null;
@@ -157,6 +171,8 @@ export class CommonService {
       throw new Error('Configuração de schema do banco de dados em falta.');
     }
 
+    console.log('Buscando taxa de IVA para o código:', vatCode, 'e data de referência:', referenceDate);
+
     let lastReadVatRate: Decimal | null = null;
 
     // Para garantir que estamos a comparar apenas a parte da data
@@ -174,6 +190,8 @@ export class CommonService {
           ORDER BY VAT_0, LEG_0, CPY_0, STRDAT_0
         `,
       );
+
+      console.log('Resultados da consulta de taxas de IVA:', results);
 
       if (results.length === 0) {
         return null;
@@ -203,6 +221,258 @@ export class CommonService {
     } catch (error) {
       console.error('Erro ao buscar ou processar taxas de IVA:', error);
       throw error;
+    }
+  }
+
+  /**
+   * Recuperação da taxa entre uma moeda destination e a moeda da empresa
+   * @param euro código da moeda
+   * @param organizationCurrency Moeda da empresa)
+   * @param destinationCurrency Moeda destino
+   * @param rateType Tipo de câmbio
+   * @param referenceDate Data de referência
+   * @returns A taxa de câmbio ou null se não encontrado.
+   */
+  async getCurrencyRate(
+    euro: string,
+    organizationCurrency: string,
+    destinationCurrency: string,
+    rateType: number,
+    referenceDate: Date,
+  ): Promise<RateCurrency> {
+    const dbSchema = process.env.DB_SCHEMA;
+
+    if (!dbSchema) {
+      console.error('Erro: Variável de ambiente DB_SCHEMA não está definida.');
+      throw new Error('Configuração de schema do banco de dados em falta.');
+    }
+
+    const reference_date = referenceDate === null ? getGreatestValidDate() : referenceDate;
+    const rate_type = rateType === null || rateType === 0 ? 1 : rateType;
+
+    // const FLEURO = true;
+    // let NO_CUR_RATE = 0;
+
+    let returnRate: RateCurrency = { rate: new Decimal(1), status: 0 };
+
+    if (organizationCurrency === euro) {
+      try {
+        const currencyInfo: TabRatCurRecord = await this.getCurrency(destinationCurrency);
+
+        if (currencyInfo.EURFLG_0 === 0) {
+          return { rate: new Decimal(1), status: 3 };
+        }
+
+        if (
+          currencyInfo.EURFLG_0 === 2 &&
+          (currencyInfo.EURDAT_0 === DEFAULT_LEGACY_DATE || currencyInfo.EURDAT_0 <= reference_date)
+        ) {
+          returnRate.rate = currencyInfo.EURRAT_0.equals(0) ? new Decimal(1) : currencyInfo.EURRAT_0;
+          returnRate.status = 1;
+        } else {
+          returnRate = await this.getCurrencyRateByType(rate_type, destinationCurrency, euro, reference_date);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar taxa de câmbio:', error);
+        return returnRate;
+      }
+    } else if (destinationCurrency === euro) {
+      try {
+        const currencyInfo: TabRatCurRecord = await this.getCurrency(organizationCurrency);
+
+        if (currencyInfo.EURFLG_0 === 0) {
+          return { rate: new Decimal(1), status: 2 };
+        }
+
+        if (
+          currencyInfo.EURFLG_0 === 2 &&
+          (currencyInfo.EURDAT_0 === DEFAULT_LEGACY_DATE || currencyInfo.EURDAT_0 <= reference_date)
+        ) {
+          if (currencyInfo.EURRAT_0.equals(0)) {
+            returnRate.rate = currencyInfo.EURRAT_0.equals(0)
+              ? new Decimal(1)
+              : new Decimal(1).div(currencyInfo.EURRAT_0);
+            returnRate.status = 1;
+          }
+        } else {
+          returnRate = await this.getCurrencyRateByType(rate_type, euro, organizationCurrency, reference_date);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar taxa de câmbio:', error);
+        return returnRate;
+      }
+    } else {
+      try {
+        const orgCurrencyInfo: TabRatCurRecord = await this.getCurrency(organizationCurrency);
+        const destCurrencyInfo: TabRatCurRecord = await this.getCurrency(destinationCurrency);
+
+        if (orgCurrencyInfo.EURFLG_0 === 0) return { rate: new Decimal(1), status: 2 };
+        if (orgCurrencyInfo.CUR_0 !== destCurrencyInfo.CUR_0 && destCurrencyInfo.EURFLG_0 === 0)
+          return { rate: new Decimal(1), status: 3 };
+
+        let organizationRate: RateCurrency = { rate: new Decimal(1), status: 0 };
+        let destinationRate: RateCurrency = { rate: new Decimal(1), status: 0 };
+
+        if (orgCurrencyInfo.CUR_0 === destCurrencyInfo.CUR_0) {
+          returnRate.rate = orgCurrencyInfo.EURRAT_0.equals(0)
+            ? new Decimal(1)
+            : destCurrencyInfo.EURRAT_0.div(orgCurrencyInfo.EURRAT_0);
+          returnRate.status = 1;
+          return returnRate;
+        }
+
+        if (
+          orgCurrencyInfo.EURFLG_0 === 2 &&
+          (orgCurrencyInfo.EURDAT_0 === DEFAULT_LEGACY_DATE || orgCurrencyInfo.EURDAT_0 <= reference_date)
+        ) {
+          const checkRate = await this.getCurrencyRateByType(rate_type, destinationCurrency, euro, reference_date);
+
+          organizationRate = {
+            rate: orgCurrencyInfo.EURRAT_0.equals(0) ? new Decimal(1) : checkRate.rate.div(orgCurrencyInfo.EURRAT_0),
+            status: checkRate.status,
+          };
+        }
+
+        if (
+          destCurrencyInfo.EURFLG_0 === 2 &&
+          (destCurrencyInfo.EURDAT_0 === DEFAULT_LEGACY_DATE || destCurrencyInfo.EURDAT_0 <= reference_date)
+        ) {
+          const checkRate = await this.getCurrencyRateByType(rate_type, euro, organizationCurrency, reference_date);
+
+          destinationRate = {
+            rate: destCurrencyInfo.EURRAT_0.equals(0) ? new Decimal(1) : checkRate.rate.mul(destCurrencyInfo.EURRAT_0),
+            status: checkRate.status,
+          };
+        }
+
+        if (organizationRate.status === 0 && destinationRate.status === 0) {
+          const checkRate = await this.getCurrencyRateByType(
+            rate_type,
+            destinationCurrency,
+            organizationCurrency,
+            reference_date,
+          );
+
+          if (checkRate.status !== 0) {
+            // if (FLEURO) {
+            //   NO_CUR_RATE = 1;
+            const checkRate = await this.getCurrencyRateByType(rate_type, euro, organizationCurrency, reference_date);
+
+            if (checkRate.status === 0) {
+              const cours = checkRate.rate;
+
+              const checkRate1 = await this.getCurrencyRateByType(rateType, destinationCurrency, euro, referenceDate);
+
+              if (checkRate1.status === 0) {
+                returnRate.rate = cours.mul(checkRate1.rate);
+                returnRate.status = checkRate1.status;
+              }
+            }
+            // }
+          } else {
+            returnRate.rate = checkRate.rate;
+            returnRate.status = checkRate.status;
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao buscar taxa de câmbio:', error);
+        return returnRate;
+      }
+    }
+
+    return returnRate;
+  }
+
+  /**
+   * Retorna os dados da moeda informada
+   * @param currency Código da moeda
+   * @returns O objeto de moeda encontrado ou null se não existir.
+   */
+  async getCurrency(currency: string): Promise<TabRatCurRecord> {
+    console.log('Buscando dados da moeda:', currency);
+
+    const dbSchema = process.env.DB_SCHEMA;
+
+    if (!dbSchema) {
+      console.error('Erro: Variável de ambiente DB_SCHEMA não está definida.');
+      throw new Error('Configuração de schema do banco de dados em falta.');
+    }
+
+    try {
+      const results: TabRatCurRecord[] = await this.prisma.$queryRaw<TabRatCurRecord[]>(
+        Prisma.sql`
+          SELECT TOP 1 CUR_0, EURFLG_0, EURRAT_0, EURDAT_0
+          FROM ${Prisma.raw(dbSchema)}.TABCUR
+          WHERE CUR_0 = ${currency}
+        `,
+      );
+
+      return results.length > 0
+        ? results[0]
+        : {
+            CUR_0: '',
+            EURFLG_0: 0,
+            EURRAT_0: new Decimal(0),
+            EURDAT_0: new Date(0),
+          };
+    } catch (error) {
+      console.error('Erro ao buscar dados da moeda:', error);
+      throw new Error('Não foi possível buscar os dados da moeda.');
+    }
+  }
+
+  /**
+   * Busca o câmbio de uma moeda para outra
+   * @param rateType Tipo de câmbio
+   * @param destinationCurrency Moeda destino
+   * @param currency Moeda de origem
+   * @param referenceDate Data de referência
+   * @returns A taxa de câmbio ou null se não encontrado.
+   */
+  async getCurrencyRateByType(
+    rateType: number,
+    destinationCurrency: string,
+    currency: string,
+    referenceDate: Date,
+  ): Promise<RateCurrency> {
+    const dbSchema = process.env.DB_SCHEMA;
+
+    if (!dbSchema) {
+      console.error('Erro: Variável de ambiente DB_SCHEMA não está definida.');
+      throw new Error('Configuração de schema do banco de dados em falta.');
+    }
+
+    let rateCurrency: RateCurrency = { rate: new Decimal(1), status: 1 };
+
+    try {
+      const result = await this.prisma.currencyRateTable.findFirst({
+        where: {
+          rateType,
+          destinationCurrency,
+          currency,
+          rateDate: {
+            lte: referenceDate,
+          },
+        },
+        orderBy: [{ rateType: 'asc' }, { destinationCurrency: 'asc' }, { currency: 'asc' }, { rateDate: 'desc' }],
+      });
+
+      if (!result) {
+        console.warn('Nenhuma taxa de câmbio encontrada para os critérios especificados.');
+        return rateCurrency;
+      }
+
+      const reverse = result.reverse;
+      const divisor = result.divisor ?? 1; // Garantir que divisor não seja zero
+      const value = new Decimal(divisor).div(reverse).toDecimalPlaces(9, Decimal.ROUND_HALF_UP);
+
+      rateCurrency.rate = value;
+      rateCurrency.status = 0;
+
+      return rateCurrency;
+    } catch (error) {
+      console.error('Erro ao buscar taxa de câmbio:', error);
+      return rateCurrency;
     }
   }
 }

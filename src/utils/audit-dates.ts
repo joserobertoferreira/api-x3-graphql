@@ -53,3 +53,18 @@ export function generateUUIDBuffer(): Buffer {
 
   return buffer;
 }
+
+/**
+ * Retorna a data do final do século atual (31 de dezembro do último ano do século).
+ *
+ * Exemplo: Se o ano atual for 2023, retornará 31 de dezembro de 2099.
+ *
+ * @returns {Date} A data representando o final do século atual.
+ */
+export function getGreatestValidDate(): Date {
+  const currentYear = new Date().getFullYear();
+  const centuryStartYear = Math.floor((currentYear - 1) / 100) * 100 + 1;
+  const centuryEndYear = centuryStartYear + 99;
+
+  return new Date(centuryEndYear, 11, 31); // mês 11 = dezembro (0-indexado)
+}

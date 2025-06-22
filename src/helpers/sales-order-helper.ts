@@ -3,7 +3,8 @@ import { Prisma } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 import { CreateSalesOrderInput, CreateSalesOrderLineInput } from '../graphql/inputs/sales-order-input';
 import { BusinessPartnerService } from '../services/business-partner/partner-service';
-import { CommonService, Ledgers } from '../services/common/common-service';
+import { CommonService, Ledgers, RateCurrency } from '../services/common/common-service';
+import { ParametersService } from '../services/common/parameters-service';
 import { generateUUIDBuffer, getAuditTimestamps } from '../utils/audit-dates';
 import { calculatePrice } from '../utils/price-util';
 
@@ -12,6 +13,8 @@ export async function mountPayloadCreateSalesOrder(
   customer: Prisma.CustomerGetPayload<{ include: { addresses: true; businessPartner: true } }>,
   site: Prisma.SiteGetPayload<{ include: { company: true } }>,
   partnerService: BusinessPartnerService,
+  commonService: CommonService,
+  parametersService: ParametersService,
 ): Promise<Prisma.SalesOrderCreateInput> {
   const timestamps = getAuditTimestamps();
   const headerUUID = generateUUIDBuffer();
@@ -30,11 +33,30 @@ export async function mountPayloadCreateSalesOrder(
     billIdx = 0;
   }
 
+  const orderType = await commonService.getSalesOrderType(input.salesOrderType ?? 'SON', '');
+  const globalCurrency = await parametersService.getParameterValue('', '', 'EURO');
+
+  let currencyRate: RateCurrency;
+  if (site.company?.accountingCurrency !== customer.customerCurrency) {
+    currencyRate = await commonService.getCurrencyRate(
+      globalCurrency?.value ?? 'EUR',
+      input.currency ?? customer.customerCurrency,
+      site.company?.accountingCurrency ?? 'EUR',
+      customer.rateType,
+      input.orderDate ?? timestamps.date,
+    );
+  } else {
+    currencyRate = {
+      rate: new Decimal(1),
+      status: 0,
+    };
+  }
+
   const payload: Prisma.SalesOrderCreateInput = {
     company: site?.legalCompany ?? '',
     salesSite: input.salesSite,
-    salesOrderType: input.salesOrderType ?? 'SON',
-    category: 1,
+    salesOrderType: orderType?.orderType ?? 'SON',
+    category: orderType?.orderCategory ?? 1,
     orderDate: input.orderDate ?? timestamps.date,
     customerOrderReference: input.customerOrderReference ?? '',
     soldToCustomer: input.soldToCustomer,
@@ -79,6 +101,8 @@ export async function mountPayloadCreateSalesOrder(
     groupCustomer: customer.groupCustomer,
     taxRule: input.taxRule ?? customer.taxRule,
     currency: input.currency ?? customer.customerCurrency,
+    currencyRateType: customer.rateType,
+    currencyRate: currencyRate.rate,
     priceIncludingOrExcludingTax: input.priceIncludingOrExcludingTax ?? customer.priceType,
     shippingSite: input.shipmentSite ?? input.salesSite,
     shipmentDate: input.shipmentDate ?? timestamps.date,
@@ -110,6 +134,7 @@ export async function mountPayloadCreateSalesOrder(
     customerStatisticalGroup4: customer.statisticalGroup3 ?? '',
     customerStatisticalGroup5: customer.statisticalGroup4 ?? '',
     orderStatus: 1,
+    deliveryType: orderType?.deliveryType ?? '',
     totalQuantityDistributedOnLines: 1,
     weightUnitForDistributionOnLines: 'KG',
     volumeUnitForDistributionOnLines: 'L',
@@ -173,10 +198,11 @@ export async function mountPayloadCreateSalesOrderPrice(
 
   // Get the tax rate from the product or default to 0 if not available
   const taxRateResult = await commonService.getTaxRate(product.taxLevel1, timestamps.date);
+
   const taxRate = taxRateResult ? taxRateResult.toNumber() : 0;
 
   // Calculate the price with tax and without tax
-  const calculatedPrice = calculatePrice(linePrice.toNumber(), header.priceIncludingOrExcludingTax ?? 1, taxRate);
+  const calculatedPrice = calculatePrice(linePrice, header.priceIncludingOrExcludingTax ?? 1, taxRate);
 
   const payload: Prisma.SalesOrderPriceUncheckedCreateWithoutOrderInput = {
     lineNumber: lineNumber,
@@ -200,8 +226,9 @@ export async function mountPayloadCreateSalesOrderPrice(
     netPrice: calculatedPrice.priceWithoutTax,
     netPriceExcludingTax: calculatedPrice.priceWithoutTax,
     netPriceIncludingTax: calculatedPrice.priceWithTax,
-    salesUnit: product.salesUnit ?? '',
+    salesUnit: product.salesUnit ?? 'EA',
     salesUnitToStockUnitConversionFactor: product.salesUnitToStockUnitConversionFactor ?? 1,
+    stockUnit: product.stockUnit ?? 'EA',
     productStatisticalGroup1: product.productStatisticalGroup1 ?? '',
     productStatisticalGroup2: product.productStatisticalGroup2 ?? '',
     productStatisticalGroup3: product.productStatisticalGroup3 ?? '',
@@ -212,6 +239,7 @@ export async function mountPayloadCreateSalesOrderPrice(
     createDatetime: timestamps.dateTime,
     updateDatetime: timestamps.dateTime,
     singleID: priceUUID,
+    ENDDAT_0: timestamps.date,
   };
 
   return [payload];

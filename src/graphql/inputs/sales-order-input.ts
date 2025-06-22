@@ -14,6 +14,9 @@ export class CreateSalesOrderLineInput {
 
   @Field(() => Date, { nullable: true })
   expectedDeliveryDate?: Date;
+
+  @Field(() => String, { nullable: true, description: 'Tax level code for the product' })
+  taxLevelCode?: string;
 }
 
 @InputType({ description: 'Data to create a sales order, include header and lines' })

@@ -25,7 +25,7 @@ export class SalesOrderMutations {
     @Arg('data') input: CreateSalesOrderInput,
     @Ctx() { services, prisma }: ApolloContext,
   ): Promise<SalesOrder> {
-    // 1. Validações e Busca de Dados Preliminares ---
+    // Validações e Busca de Dados Preliminares ---
     const customer = await services.customerService.findCustomerByCode(input.soldToCustomer, {
       addresses: true,
       businessPartner: true,
@@ -47,29 +47,22 @@ export class SalesOrderMutations {
       throw new Error(`No ledgers found for company ${siteInformation.legalCompany}.`);
     }
 
-    // const chartCodes = await services.commonService.getChartCodes(ledgers);
-
     // adicionar mais validações aqui (ex: verificar se o endereço de entrega pertence ao cliente)
 
     const timestamps = getAuditTimestamps();
-
-    // 2. Obter o próximo número da encomenda
-    const newOrderNumber = await services.salesOrderService.getNextOrderNumber({
-      orderType: input.salesOrderType ?? 'SON',
-      legislation: '',
-      salesSite: input.salesSite,
-      orderDate: input.orderDate ?? timestamps.date,
-      complement: '',
-    });
 
     const createPayload = await mountPayloadCreateSalesOrder(
       input,
       customer,
       siteInformation,
       services.businessPartnerService,
+      services.commonService,
+      services.parametersService,
     );
 
-    // 3. Executar a criação dentro de uma transação ---
+    const debug_enabled = false;
+
+    // 2. Executar a criação dentro de uma transação ---
     const createdOrder = await services.salesOrderService.executeInTransaction(async (tx) => {
       // 'tx' é a nossa instância transacional do Prisma,
 
@@ -88,9 +81,6 @@ export class SalesOrderMutations {
 
         // const linePrice = lineInput.grossPrice ?? (product.PURBASPRI_0 as unknown as number);
         const lineNumber = currentLineNumber;
-        // const lineUUID = generateUUIDBuffer();
-        // const priceUUID = generateUUIDBuffer();
-        // const analyticalUUID = generateUUIDBuffer();
 
         currentLineNumber += 1000;
 
@@ -98,88 +88,8 @@ export class SalesOrderMutations {
         const linePayload = await mountPayloadCreateSalesOrderLine(createPayload, lineInput, lineNumber);
 
         linesToCreate.push(...linePayload);
-        // linesToCreate.push({
-        //   lineNumber: lineNumber,
-        //   sequenceNumber: lineNumber,
-        //   product: lineInput.product,
-        //   quantityInSalesUnitOrdered: lineInput.quantity,
-        //   salesSite: createPayload.salesSite,
-        //   orderDate: createPayload.orderDate,
-        //   requestedDeliveryDate: lineInput.expectedDeliveryDate ?? createPayload.requestedDeliveryDate,
-        //   createDate: timestamps.date,
-        //   updateDate: timestamps.date,
-        //   createDatetime: timestamps.dateTime,
-        //   updateDatetime: timestamps.dateTime,
-        //   singleID: lineUUID,
-        // });
 
         // 2. Preparar dados de contabilidade analítica (se necessário)
-        // const fixedAnalyticalData: Partial<Prisma.AnalyticalAccountingLinesCreateInput> = {
-        //   abbreviation: 'SOP',
-        //   sortValue: 1,
-        //   createDatetime: timestamps.dateTime,
-        //   updateDatetime: timestamps.dateTime,
-        //   singleID: analyticalUUID,
-        // };
-
-        // const ledgerFields: { [key: string]: string } = {};
-        // const chartFields: { [key: string]: string } = {};
-
-        // ledgers.forEach((ledger, index) => {
-        //   switch (index) {
-        //     case 0:
-        //       ledgerFields.ledger1 = ledger.LED_0;
-        //       break;
-        //     case 1:
-        //       ledgerFields.ledger2 = ledger.LED_1;
-        //       break;
-        //     case 2:
-        //       ledgerFields.ledger3 = ledger.LED_2;
-        //       break;
-        //     case 3:
-        //       ledgerFields.ledger4 = ledger.LED_3;
-        //       break;
-        //     case 4:
-        //       ledgerFields.ledger5 = ledger.LED_4;
-        //       break;
-        //     case 5:
-        //       ledgerFields.ledger6 = ledger.LED_6;
-        //       break;
-        //     default:
-        //       break;
-        //   }
-        // });
-
-        // chartCodes.forEach((chart, index) => {
-        //   switch (index) {
-        //     case 0:
-        //       chartFields.chart1 = chart;
-        //       break;
-        //     case 1:
-        //       chartFields.chart2 = chart;
-        //       break;
-        //     case 2:
-        //       chartFields.chart3 = chart;
-        //       break;
-        //     case 3:
-        //       chartFields.chart4 = chart;
-        //       break;
-        //     case 4:
-        //       chartFields.chart5 = chart;
-        //       break;
-        //     case 5:
-        //       chartFields.chart6 = chart;
-        //       break;
-        //     default:
-        //       break;
-        //   }
-        // });
-
-        // const analyticalData = {
-        //   ...fixedAnalyticalData,
-        //   ...ledgerFields,
-        //   ...chartFields,
-        // } as Prisma.AnalyticalAccountingLinesUncheckedCreateWithoutSalesOrderPriceInput;
         const analyticalData = await mountPayloadAnalyticalAccountingLines(
           createPayload,
           ledgers,
@@ -207,23 +117,20 @@ export class SalesOrderMutations {
         }
 
         pricesToCreate.push(...pricePayload);
-        // pricesToCreate.push({
-        //   lineNumber: lineNumber,
-        //   sequenceNumber: lineNumber,
-        //   product: lineInput.product,
-        //   netPrice: linePrice,
-        //   grossPrice: linePrice,
-        //   salesUnit: product.salesUnit,
-        //   createDate: timestamps.date,
-        //   updateDate: timestamps.date,
-        //   createDatetime: timestamps.dateTime,
-        //   updateDatetime: timestamps.dateTime,
-        //   singleID: priceUUID,
-        // analyticalAccountingLines: {
-        //   create: analyticalData,
-        // },
-        // });
       }
+
+      if (debug_enabled) {
+        throw new Error('Debug...');
+      }
+
+      // Obter o próximo número da encomenda
+      const newOrderNumber = await services.salesOrderService.getNextOrderNumber({
+        orderType: input.salesOrderType ?? 'SON',
+        legislation: '',
+        salesSite: input.salesSite,
+        orderDate: input.orderDate ?? timestamps.date,
+        complement: '',
+      });
 
       // B. Criar o Cabeçalho da Encomenda com LINHAS e PREÇOS aninhados
       const orderHeader = await tx.salesOrder.create({
@@ -247,7 +154,6 @@ export class SalesOrderMutations {
     });
 
     // Retornar a encomenda criada
-    // Idealmente, faríamos uma nova busca para retornar o objeto completo com todas as relações
     return this.getOrderById(createdOrder.id, services);
   }
 

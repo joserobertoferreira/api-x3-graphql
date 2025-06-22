@@ -13,27 +13,33 @@ type CalculatedPrice = {
  * @param taxRate VAT percentage
  * @returns
  */
-export function calculatePrice(price: number, type: number, taxRate: number): CalculatedPrice {
+export function calculatePrice(price: Decimal, type: number, taxRate: number): CalculatedPrice {
   let netPrice: Decimal;
   let tax: Decimal;
   let grossPrice: Decimal;
 
   if (price === undefined || price === null) {
-    price = 0;
+    price = new Decimal(0);
   }
 
   grossPrice = new Decimal(price);
+
+  console.log(grossPrice.toString(), type, taxRate);
 
   if (type === 1) {
     // Preço sem IVA
     netPrice = grossPrice;
     tax = grossPrice.mul(taxRate).div(100);
     grossPrice = grossPrice.add(tax);
+
+    console.log('Preço sem IVA', netPrice.toString(), 'IVA', tax.toString(), 'Preço com IVA', grossPrice.toString());
   } else if (type === 2) {
     // Preço com IVA
     const divider = new Decimal(1).plus(new Decimal(taxRate).div(100));
     netPrice = grossPrice.div(divider);
     tax = grossPrice.minus(netPrice);
+
+    console.log('Preço sem IVA', netPrice.toString(), 'IVA', tax.toString(), 'Preço com IVA', grossPrice.toString());
   } else {
     throw new Error('Tipo de preço inválido. Use 1 (sem IVA) ou 2 (com IVA).');
   }

@@ -124,6 +124,9 @@ input CreateSalesOrderLineInput {
 
   """Quantity of the product in sales unit"""
   quantity: Float!
+
+  """Tax level code for the product"""
+  taxLevelCode: String
 }
 
 input CustomerFilterInput {
