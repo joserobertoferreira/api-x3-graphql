@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 import {
+  calculateSalesOrderTotals,
   mountPayloadAnalyticalAccountingLines,
   mountPayloadCreateSalesOrder,
   mountPayloadCreateSalesOrderLine,
@@ -9,6 +10,7 @@ import {
 } from '../../../../helpers/sales-order-helper';
 import { ApolloContext } from '../../../../middleware/context-middleware';
 import { getAuditTimestamps } from '../../../../utils/audit-dates';
+import { totalValuesByKey } from '../../../../utils/general-utils';
 import { CreateSalesOrderInput } from '../../../inputs/sales-order-input';
 import { SalesOrder } from '../../../types/sales-order-types';
 
@@ -133,10 +135,40 @@ export class SalesOrderMutations {
       });
 
       // B. Criar o Cabeçalho da Encomenda com LINHAS e PREÇOS aninhados
+      const totals = calculateSalesOrderTotals(pricesToCreate, linesToCreate, [
+        'netPriceExcludingTax',
+        'netPriceIncludingTax',
+      ]);
+
+      const amountExcludingTax = totals.netPriceExcludingTax.toDecimalPlaces(2, Decimal.ROUND_HALF_EVEN);
+      const amountIncludingTax = totals.netPriceIncludingTax.toDecimalPlaces(2, Decimal.ROUND_HALF_EVEN);
+      const rate = createPayload.currencyRate as Decimal.Value;
+      const amountExcludingTaxInCompanyCurrency = amountExcludingTax
+        .mul(rate)
+        .toDecimalPlaces(2, Decimal.ROUND_HALF_EVEN);
+      const amountIncludingTaxInCompanyCurrency = amountIncludingTax
+        .mul(rate)
+        .toDecimalPlaces(2, Decimal.ROUND_HALF_EVEN);
+
       const orderHeader = await tx.salesOrder.create({
         data: {
           id: newOrderNumber,
           ...createPayload,
+          numberOfLines: linesToCreate.length,
+          linesAmountExcludingTax: amountExcludingTax,
+          totalAmountExcludingTax: amountExcludingTax,
+          linesAmountRemainingToDeliverExcludingTax: amountExcludingTax,
+          linesAmountExcludingTaxInCompanyCurrency: amountExcludingTaxInCompanyCurrency,
+          totalAmountExcludingTaxInCompanyCurrency: amountExcludingTaxInCompanyCurrency,
+          totalMargin: amountExcludingTax,
+          INRNOT_0: amountExcludingTax,
+          linesAmountIncludingTax: amountIncludingTax,
+          totalAmountIncludingTax: amountIncludingTax,
+          linesAmountRemainingToDeliverIncludingTax: amountIncludingTax,
+          linesAmountIncludingTaxInCompanyCurrency: amountIncludingTaxInCompanyCurrency,
+          totalAmountIncludingTaxInCompanyCurrency: amountIncludingTaxInCompanyCurrency,
+          totalQuantityDistributedOnLines: totalValuesByKey(linesToCreate, 'quantityInSalesUnitOrdered'),
+          INRATI_0: amountIncludingTax,
           orderLines: {
             create: linesToCreate,
           },
@@ -165,7 +197,11 @@ export class SalesOrderMutations {
         orderLines: {
           include: {
             price: true,
+            productDetails: true,
           },
+        },
+        orderPrices: {
+          include: { productDetails: true },
         },
       },
     });

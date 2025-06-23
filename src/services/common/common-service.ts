@@ -18,6 +18,7 @@ export interface Ledgers {
 }
 
 interface TabRatVatRecord {
+  VAT_0: string;
   STRDAT_0: Date;
   VATRAT_0: Decimal;
 }
@@ -163,7 +164,7 @@ export class CommonService {
    * @param referenceDate - A data para a qual a taxa deve ser encontrada.
    * @returns A taxa de IVA (VATRAT_0) aplicável ou null se nenhuma for encontrada.
    */
-  async getTaxRate(vatCode: string, referenceDate: Date): Promise<Decimal | null> {
+  async getTaxRate(vatCode: string, referenceDate: Date): Promise<TabRatVatRecord | null> {
     const dbSchema = process.env.DB_SCHEMA;
 
     if (!dbSchema) {
@@ -184,7 +185,7 @@ export class CommonService {
     try {
       const results: TabRatVatRecord[] = await this.prisma.$queryRaw<TabRatVatRecord[]>(
         Prisma.sql`
-          SELECT STRDAT_0, VATRAT_0
+          SELECT VAT_0, STRDAT_0, VATRAT_0
           FROM ${Prisma.raw(dbSchema)}.TABRATVAT
           WHERE VAT_0 = ${vatCode}
           ORDER BY VAT_0, LEG_0, CPY_0, STRDAT_0
@@ -211,13 +212,21 @@ export class CommonService {
           testDate = recordStrDatStartOfDay;
         } else {
           if (refDateStartOfDay >= testDate && refDateStartOfDay < recordStrDatStartOfDay) {
-            return lastReadVatRate;
+            return {
+              VAT_0: record.VAT_0,
+              STRDAT_0: testDate,
+              VATRAT_0: lastReadVatRate,
+            };
           } else {
             testDate = recordStrDatStartOfDay;
           }
         }
       }
-      return lastReadVatRate;
+      return {
+        VAT_0: results[0].VAT_0,
+        STRDAT_0: testDate ?? results[0].STRDAT_0,
+        VATRAT_0: lastReadVatRate ?? new Decimal(0),
+      };
     } catch (error) {
       console.error('Erro ao buscar ou processar taxas de IVA:', error);
       throw error;

@@ -60,6 +60,27 @@ export class CreateSalesOrderInput {
   @Field(() => String, { nullable: true, description: 'Payment term' })
   paymentTerm?: string;
 
+  @Field(() => String, { description: 'Fixture' })
+  dimension1: string;
+
+  @Field(() => String, { nullable: true, description: 'Broker' })
+  dimension2?: string;
+
+  @Field(() => String, { nullable: true, description: 'Department' })
+  dimension3?: string;
+
+  @Field(() => String, { nullable: true, description: 'Location' })
+  dimension4?: string;
+
+  @Field(() => String, { nullable: true, description: 'Type' })
+  dimension5?: string;
+
+  @Field(() => String, { nullable: true, description: 'Product' })
+  dimension6?: string;
+
+  @Field(() => String, { nullable: true, description: 'Analysis' })
+  dimension7?: string;
+
   @Field(() => [CreateSalesOrderLineInput], { description: 'An array with all products to order.' })
   lines: CreateSalesOrderLineInput[];
 }

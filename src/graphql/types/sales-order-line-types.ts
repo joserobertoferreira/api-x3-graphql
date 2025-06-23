@@ -45,7 +45,9 @@ export class SalesOrderLine {
 
   order?: SalesOrder | null;
 
-  price?: SalesOrderPrice | null;
+  @Field((_type) => SalesOrderPrice, { nullable: true })
+  price?: SalesOrderPrice;
 
-  productDetails?: Products | null;
+  @Field((_type) => Products, { nullable: true })
+  productDetails?: Products;
 }

@@ -50,3 +50,18 @@ export function calculatePrice(price: Decimal, type: number, taxRate: number): C
     priceWithTax: grossPrice.toDecimalPlaces(3),
   };
 }
+
+/**
+ * Calculate margin based on the provided parameters.
+ * @param site Site price
+ * @param type 1 | 2 (1 = without VAT, 2 = with VAT)
+ * @param referenceDate Reference date for the margin calculation
+ * @param currency Currency code
+ * @returns Calculated margin as a Decimal
+ */
+export function calculateMargin(site: Decimal, type: number, referenceDate: Date, currency: string): Decimal {
+  // Placeholder for margin calculation logic
+  // This function should be implemented based on specific business rules
+  // For now, we return a fixed value for demonstration purposes
+  return new Decimal(0);
+}

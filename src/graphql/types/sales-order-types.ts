@@ -1,7 +1,6 @@
 import { Prisma } from '@prisma/client';
 import { GraphQLDate } from 'graphql-scalars';
 import { Field, Int, ObjectType } from 'type-graphql';
-import { SalesOrderCount } from '../../utils/generated/type-graphql/resolvers/outputs/SalesOrderCount';
 import { DecimalJSScalar } from '../../utils/generated/type-graphql/scalars';
 import { SalesOrderLine } from './sales-order-line-types';
 import { SalesOrderPrice } from './sales-order-price-types';
@@ -168,6 +167,12 @@ export class SalesOrder {
   dimensionType5!: string;
 
   @Field((_type) => String, { nullable: false })
+  dimensionType6!: string;
+
+  @Field((_type) => String, { nullable: false })
+  dimensionType7!: string;
+
+  @Field((_type) => String, { nullable: false })
   dimension1!: string;
 
   @Field((_type) => String, { nullable: false })
@@ -181,6 +186,12 @@ export class SalesOrder {
 
   @Field((_type) => String, { nullable: false })
   dimension5!: string;
+
+  @Field((_type) => String, { nullable: false })
+  dimension6!: string;
+
+  @Field((_type) => String, { nullable: false })
+  dimension7!: string;
 
   @Field((_type) => String, {
     nullable: false,
@@ -235,10 +246,9 @@ export class SalesOrder {
   @Field((_type) => DecimalJSScalar, { nullable: false })
   taxableAmount!: Prisma.Decimal;
 
+  @Field(() => [SalesOrderLine], { nullable: true })
   orderLines?: SalesOrderLine[];
 
+  @Field(() => [SalesOrderPrice], { nullable: true })
   orderPrices?: SalesOrderPrice[];
-
-  @Field((_type) => SalesOrderCount, { nullable: true })
-  _count?: SalesOrderCount | null;
 }

@@ -76,6 +76,27 @@ input CreateSalesOrderInput {
   """Reference"""
   customerOrderReference: String
 
+  """Fixture"""
+  dimension1: String!
+
+  """Broker"""
+  dimension2: String
+
+  """Department"""
+  dimension3: String
+
+  """Location"""
+  dimension4: String
+
+  """Type"""
+  dimension5: String
+
+  """Product"""
+  dimension6: String
+
+  """Analysis"""
+  dimension7: String
+
   """An array with all products to order."""
   lines: [CreateSalesOrderLineInput!]!
 
@@ -285,6 +306,32 @@ input NestedStringFilter {
   not: NestedStringFilter
   notIn: [String!]
   startsWith: String
+}
+
+type Products {
+  _count: ProductsCount
+  code: String!
+  configuratorProductLine: String!
+  description1: String!
+  description2: String!
+  description3: String!
+  productCategory: String!
+  productStatisticalGroup1: String!
+  productStatisticalGroup2: String!
+  productStatisticalGroup3: String!
+  productStatisticalGroup4: String!
+  productStatisticalGroup5: String!
+  productStatus: Int!
+  purchaseUnit: String!
+  salesUnit: String!
+  taxLevel1: String!
+  taxLevel2: String!
+  taxLevel3: String!
+}
+
+type ProductsCount {
+  salesOrderLines(where: SalesOrderLineWhereInput): Int!
+  salesOrderPrices(where: SalesOrderPriceWhereInput): Int!
 }
 
 input ProductsNullableRelationFilter {
@@ -534,7 +581,6 @@ type Query {
 }
 
 type SalesOrder {
-  _count: SalesOrderCount
   billAddressLine1: String!
   billAddressLine2: String!
   billAddressLine3: String!
@@ -558,11 +604,15 @@ type SalesOrder {
   dimension3: String!
   dimension4: String!
   dimension5: String!
+  dimension6: String!
+  dimension7: String!
   dimensionType1: String!
   dimensionType2: String!
   dimensionType3: String!
   dimensionType4: String!
   dimensionType5: String!
+  dimensionType6: String!
+  dimensionType7: String!
   id: String!
   invoicedStatus: Int!
   linesAmountExcludingTax: Decimal!
@@ -570,6 +620,8 @@ type SalesOrder {
   linesAmountIncludingTax: Decimal!
   linesAmountIncludingTaxInCompanyCurrency: Decimal!
   orderDate: Date!
+  orderLines: [SalesOrderLine!]
+  orderPrices: [SalesOrderPrice!]
   orderStatus: Int!
   payByBusinessPartner: String!
   payByBusinessPartnerAddress: String!
@@ -612,9 +664,21 @@ type SalesOrder {
   totalAmountIncludingTaxInCompanyCurrency: Decimal!
 }
 
-type SalesOrderCount {
-  orderLines(where: SalesOrderLineWhereInput): Int!
-  orderPrices(where: SalesOrderPriceWhereInput): Int!
+type SalesOrderLine {
+  category: Int!
+  company: String!
+  isInvoiced: Int!
+  lineNumber: Int!
+  lineStatus: Int!
+  price: SalesOrderPrice
+  product: String!
+  productDetails: Products
+  quantityInSalesUnitOrdered: Decimal!
+  salesOrder: String!
+  salesSite: String!
+  sequenceNumber: Int!
+  shipToCustomerAddress: String!
+  soldToCustomer: String!
 }
 
 input SalesOrderLineListRelationFilter {
@@ -776,6 +840,30 @@ input SalesOrderLineWhereInput {
 input SalesOrderNullableRelationFilter {
   is: SalesOrderWhereInput
   isNot: SalesOrderWhereInput
+}
+
+type SalesOrderPrice {
+  calculatedTaxableBase1: Decimal!
+  calculatedTaxableBase2: Decimal!
+  grossPrice: Decimal!
+  line: SalesOrderLine
+  lineNumber: Int!
+  lineStatus: Int!
+  netPrice: Decimal!
+  netPriceExcludingTax: Decimal!
+  netPriceIncludingTax: Decimal!
+  productDescriptionInCustomerLanguage: String!
+  productDescriptionInUserLanguage: String!
+  productDetails: Products
+  salesOrder: String!
+  salesUnit: String!
+  sequenceNumber: Int!
+  tax1: String!
+  tax2: String!
+  tax3: String!
+  taxLevel1: String!
+  taxLevel2: String!
+  taxLevel3: String!
 }
 
 input SalesOrderPriceListRelationFilter {
