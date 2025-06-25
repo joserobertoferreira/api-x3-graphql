@@ -78,6 +78,22 @@ export class AddressService {
   }
 
   /**
+   * @param filter Optional filter to search for sites
+   * @returns List of sites matching the filter
+   */
+  async findMany(filter?: Prisma.AddressWhereInput): Promise<Address[]> {
+    try {
+      return await this.prisma.address.findMany({
+        where: filter,
+        orderBy: { code: 'asc' },
+      });
+    } catch (error) {
+      console.error('Error fetching companies:', error);
+      throw new Error('Unable to fetch companies.');
+    }
+  }
+
+  /**
    * Busca uma lista de endereços com opções de filtro, ordenação e paginação.
    * @param args Argumentos de busca { where, orderBy, skip, take }.
    * @returns Um array de objetos Address.

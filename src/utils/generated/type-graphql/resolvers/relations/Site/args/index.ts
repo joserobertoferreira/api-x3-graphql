@@ -1,1 +1,0 @@
-export { SiteCompanyArgs } from "./SiteCompanyArgs";

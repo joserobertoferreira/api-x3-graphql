@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { GraphQLDate } from 'graphql-scalars';
 import { Field, Int, ObjectType } from 'type-graphql';
-import { DecimalJSScalar } from '../../utils/generated/type-graphql/scalars';
+import { DecimalJSScalar } from '../../utils/scalars';
 import { SalesOrderLine } from './sales-order-line-types';
 import { SalesOrderPrice } from './sales-order-price-types';
 

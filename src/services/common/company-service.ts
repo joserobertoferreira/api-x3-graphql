@@ -1,6 +1,8 @@
 import { Company, Prisma, PrismaClient } from '@prisma/client';
 import prisma from '../../database/config';
 
+type FindManyCompanyArgs = Prisma.CompanyFindManyArgs;
+
 export class CompanyService {
   constructor(private prisma: PrismaClient) {}
 
@@ -42,6 +44,20 @@ export class CompanyService {
     } catch (error) {
       console.error('Erro ao buscar site por ID:', error);
       throw new Error('Não foi possível buscar o site.');
+    }
+  }
+
+  /**
+   * Busca uma lista de empresas com base em um filtro opcional
+   * @param filter Filtro opcional para buscar empresas
+   * @returns Lista de empresas que atendem ao filtro
+   */
+  async findMany(args?: FindManyCompanyArgs): Promise<Company[]> {
+    try {
+      return await this.prisma.company.findMany(args);
+    } catch (error) {
+      console.error('Erro ao buscar empresas:', error);
+      throw new Error('Não foi possível buscar as empresas.');
     }
   }
 }

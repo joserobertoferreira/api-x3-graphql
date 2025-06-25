@@ -1,5 +1,4 @@
 import { Field, Int, ObjectType } from 'type-graphql';
-import { ProductsCount } from '../../utils/generated/type-graphql/resolvers/outputs/ProductsCount';
 import { SalesOrderLine } from './sales-order-line-types';
 import { SalesOrderPrice } from './sales-order-price-types';
 
@@ -59,7 +58,4 @@ export class Products {
   salesOrderLines?: SalesOrderLine[];
 
   salesOrderPrices?: SalesOrderPrice[];
-
-  @Field((_type) => ProductsCount, { nullable: true })
-  _count?: ProductsCount | null;
 }

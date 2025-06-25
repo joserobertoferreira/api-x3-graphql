@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from 'type-graphql';
-import { AddressFilterInput } from './address-input';
+import { AddressFilterInput } from './address/address-input';
 
 @InputType()
 export class CustomerFilterInput {

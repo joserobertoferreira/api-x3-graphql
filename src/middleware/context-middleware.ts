@@ -1,6 +1,7 @@
 import { ExpressContextFunctionArgument } from '@apollo/server/express4';
 import { Request, Response } from 'express';
 import prisma from '../database/config';
+import { createLoaders } from '../loaders';
 import { customerService } from '../services/business-partner/customer-service';
 import { businessPartnerService } from '../services/business-partner/partner-service';
 import { addressService } from '../services/common/address-service';
@@ -8,6 +9,7 @@ import { commonService } from '../services/common/common-service';
 import { companyService } from '../services/common/company-service';
 import { generalAccountingService } from '../services/common/general-accounting-service';
 import { parametersService } from '../services/common/parameters-service';
+import { siteService } from '../services/common/site-service';
 import { salesOrderService } from '../services/orders/sales-order-service';
 
 export interface ApolloContext {
@@ -22,11 +24,16 @@ export interface ApolloContext {
     commonService: typeof commonService;
     generalAccountingService: typeof generalAccountingService;
     parametersService: typeof parametersService;
+    siteService: typeof siteService;
   };
   prisma: typeof prisma;
+  loaders: ReturnType<typeof createLoaders>;
 }
 
 export const getContext = async ({ req, res }: ExpressContextFunctionArgument): Promise<ApolloContext> => {
+  // Create DataLoader instances
+  const loaders = createLoaders(prisma);
+
   return {
     req: req,
     res: res,
@@ -39,7 +46,9 @@ export const getContext = async ({ req, res }: ExpressContextFunctionArgument): 
       commonService,
       generalAccountingService,
       parametersService,
+      siteService,
     },
     prisma,
+    loaders,
   };
 };

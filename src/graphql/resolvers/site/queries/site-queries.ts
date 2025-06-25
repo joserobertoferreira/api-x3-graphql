@@ -1,0 +1,32 @@
+import { Address, Prisma, Site } from '@prisma/client';
+import DataLoader from 'dataloader';
+import { Arg, Ctx, FieldResolver, Query, Resolver, Root } from 'type-graphql';
+import { addressMapper } from '../../../../helpers/address-helper';
+import { ApolloContext } from '../../../../middleware/context-middleware';
+import { SiteWhereInput } from '../../../inputs/site/SiteWhereInput';
+import { AddressType } from '../../../types/address-type';
+import { SiteType } from '../../../types/site-type';
+
+interface LocalContext {
+  services: ApolloContext['services'];
+  siteAddressLoader: DataLoader<string, Address[]>;
+}
+
+@Resolver(() => SiteType)
+export class SiteQueries {
+  @Query(() => [SiteType], { description: 'Returns a list of sites, with filter options.' })
+  async sites(
+    @Arg('where', () => SiteWhereInput, { nullable: true }) where: SiteWhereInput | null,
+    @Ctx() { services }: ApolloContext,
+  ): Promise<SiteType[]> {
+    return services.siteService.findMany(where as Prisma.SiteWhereInput);
+  }
+
+  @FieldResolver(() => [AddressType], { nullable: true })
+  async addresses(@Root() site: Site, @Ctx() { siteAddressLoader }: LocalContext): Promise<AddressType[] | undefined> {
+    console.log(`Addresses for site ${site.siteCode}: Lazy loading with DataLoader.`);
+
+    const addresses = await siteAddressLoader.load(site.siteCode);
+    return addresses.map(addressMapper);
+  }
+}
