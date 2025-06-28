@@ -20,6 +20,9 @@ export class CompanyType {
   legislation!: string;
 
   @Field(() => String, { nullable: true })
+  country?: string;
+
+  @Field(() => String, { nullable: true })
   defaultAddress?: string;
 
   @Field(() => String, { nullable: true })

@@ -5,6 +5,7 @@ import { CompanyResolvers } from './company';
 import { CustomerResolvers } from './customer';
 import { SalesOrderResolvers } from './sales-orders';
 import { SiteResolvers } from './site';
+import { SupplierResolvers } from './supplier';
 
 // const resolvers = [...AuthResolvers, CustomerResolvers];
 // const resolvers = [...CustomerResolvers, AddressResolver];
@@ -14,5 +15,6 @@ export const SystemResolvers: NonEmptyArray<any> = [
   AddressResolver,
   ...SalesOrderResolvers,
   ...CompanyResolvers,
+  ...SupplierResolvers,
   ...SiteResolvers,
 ];

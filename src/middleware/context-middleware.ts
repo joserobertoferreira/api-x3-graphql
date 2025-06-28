@@ -4,6 +4,7 @@ import prisma from '../database/config';
 import { createLoaders } from '../loaders';
 import { customerService } from '../services/business-partner/customer-service';
 import { businessPartnerService } from '../services/business-partner/partner-service';
+import { supplierService } from '../services/business-partner/supplier-service';
 import { addressService } from '../services/common/address-service';
 import { commonService } from '../services/common/common-service';
 import { companyService } from '../services/common/company-service';
@@ -25,6 +26,7 @@ export interface ApolloContext {
     generalAccountingService: typeof generalAccountingService;
     parametersService: typeof parametersService;
     siteService: typeof siteService;
+    supplierService: typeof supplierService;
   };
   prisma: typeof prisma;
   loaders: ReturnType<typeof createLoaders>;
@@ -47,6 +49,7 @@ export const getContext = async ({ req, res }: ExpressContextFunctionArgument): 
       generalAccountingService,
       parametersService,
       siteService,
+      supplierService,
     },
     prisma,
     loaders,

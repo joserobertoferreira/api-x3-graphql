@@ -60,10 +60,6 @@ export class AddressService {
         ...options?.where, // Mescla com o filtro adicional, se houver
       };
 
-      // if (code) {
-      //   where_clause.code = code;
-      // }
-
       return await this.prisma.address.findMany({
         where: where_clause,
         orderBy: options?.orderBy,

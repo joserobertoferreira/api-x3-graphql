@@ -1,111 +1,68 @@
+import { Supplier } from '@prisma/client';
 import { Arg, Ctx, FieldResolver, Query, Resolver, Root } from 'type-graphql';
-import { buildCustomerWhereClause } from '../../../../helpers/filter-helper';
+import { addressMapper } from '../../../../helpers/address-helper';
 import { ApolloContext } from '../../../../middleware/context-middleware';
-import { CustomerFilterInput } from '../../../inputs/customer-input';
+import { SupplierWhereInput } from '../../../inputs/supplier/supplier-input';
 import { AddressType } from '../../../types/address-type';
-import { CustomerPaginationType, CustomerType } from '../../../types/customer-type';
+import { SupplierPaginationType, SupplierType } from '../../../types/supplier-type';
 
-@Resolver(() => CustomerType)
-export class CustomerQueries {
-  // Query to fetch a single customer
-  @Query(() => CustomerType, { nullable: true, description: 'Fetches a single customer by their business code.' })
-  async customer(
-    @Arg('customerCode') customerCode: string,
+interface LocalContext {
+  services: ApolloContext['services'];
+  loaders: ApolloContext['loaders'];
+}
+
+@Resolver(() => SupplierType)
+export class SupplierQueries {
+  @Query(() => [SupplierPaginationType], { description: 'Returns a list of suppliers, with filter options.' })
+  async suppliers(
+    @Arg('where', () => SupplierWhereInput, { nullable: true }) where: SupplierWhereInput | undefined,
     @Ctx() { services }: ApolloContext,
-  ): Promise<CustomerType | null> {
-    return services.customerService.findCustomerByCode(customerCode);
-  }
+  ): Promise<SupplierPaginationType[]> {
+    console.log('Fetching suppliers with filter:', where);
 
-  @Query(() => CustomerPaginationType, { description: 'Fetches a list of customers, with optional filters.' })
-  async customers(
-    @Arg('filter', () => CustomerFilterInput, { nullable: true }) filter: CustomerFilterInput,
-    @Ctx() { services }: ApolloContext,
-  ): Promise<CustomerPaginationType> {
-    console.log('Filtro GraphQL Recebido:', JSON.stringify(filter, null, 2));
-    const where = buildCustomerWhereClause(filter);
-    console.log('Cláusula WHERE gerada pelo Helper:', JSON.stringify(where, null, 2));
+    const { take = 100, skip = 0, ...filter } = where || {};
 
-    const take = filter?.take || 100; // Default limit if not provided
-    const skip = filter?.skip || 0; // Default offset if not provided
+    // Map GraphQL SupplierWhereInput to Prisma.SupplierWhereInput
+    const prismaWhere = filter
+      ? {
+          ...filter,
+          isActive: typeof filter.isActive === 'boolean' ? (filter.isActive ? 2 : 1) : undefined,
+        }
+      : undefined;
 
-    // Fetch customers with pagination
-    const result = await services.customerService.executeInTransaction(async (tx) => {
-      // Fetch customers with pagination
-      const records = await tx.customer.findMany({
-        where,
-        take: take,
-        skip: skip,
-        orderBy: { customerCode: 'asc' },
+    const result = await services.supplierService.executeInTransaction(async (tx) => {
+      const suppliers = await tx.supplier.findMany({
+        where: prismaWhere,
+        take,
+        skip,
+        orderBy: { supplierCode: 'asc' },
       });
+      const totalCount = await tx.supplier.count({ where: prismaWhere });
 
-      // Fetch the total count of customers matching the criteria
-      const totalCount = await tx.customer.count({ where });
-
-      return { records, totalCount };
+      return { suppliers, totalCount };
     });
 
-    const { records, totalCount } = result;
+    const { suppliers, totalCount } = result;
 
-    const customers = records.map((customer) => ({
-      ...customer,
-      id: customer.id.toString(), // Convert ID to string for GraphQL compatibility
-    }));
-
-    return {
-      nodes: customers,
-      totalCount,
-      hasNextPage: take + skip < totalCount,
-    };
+    return [
+      {
+        nodes: suppliers,
+        totalCount: totalCount,
+        hasNextPage: skip + take < totalCount,
+      },
+    ];
   }
 
-  @FieldResolver(() => [AddressType])
-  async addresses(@Root() customer: CustomerType, @Ctx() { services }: ApolloContext): Promise<AddressType[]> {
-    // 'customer' é o objeto pai, já resolvido pela query 'customer' ou 'customers'
-    const customerCode = customer.customerCode;
-    const customerEntityType = 1;
+  @FieldResolver(() => [AddressType], { nullable: true })
+  async addresses(@Root() supplier: Supplier, @Ctx() { loaders }: LocalContext): Promise<AddressType[] | undefined> {
+    console.log(`Addresses for supplier ${supplier.supplierCode}: Lazy loading with DataLoader.`);
 
-    // const where: Prisma.AddressWhereInput = {};
-    // const filter: Prisma.AddressWhereInput[] = [];
+    const { supplierAddressLoader } = loaders;
 
-    // if (input?.city) {
-    //   const city = input.city;
-    //   // Lógica de simulação de case-insensitive
-    //   filter.push({
-    //     OR: [
-    //       { city: { contains: city.toUpperCase() } },
-    //       { city: { contains: city.toLowerCase() } },
-    //       { city: { contains: city.charAt(0).toUpperCase() + city.slice(1).toLowerCase() } },
-    //     ],
-    //   });
-    // }
+    if (!supplierAddressLoader) throw new Error('supplierAddressLoader is missing in context');
 
-    // if (input?.country) {
-    //   filter.push({
-    //     country: {
-    //       in: [input.country.toUpperCase(), input.country.toLowerCase()],
-    //     },
-    //   });
-    // }
+    const addresses = await supplierAddressLoader.load(supplier.supplierCode);
 
-    // if (filter.length > 0) {
-    //   // Use a chave AND para combinar todas as condições
-    //   where.AND = filter;
-    // }
-
-    // Ensure skip is always a number
-    const addresses = await services.addressService.findAddressesByEntity(
-      customerEntityType,
-      customerCode,
-      undefined, // code opcional
-      // {
-      //   where,
-      //   take: input.limit,
-      //   skip: input.offset,
-      // },
-    );
-    return addresses.map((address) => ({
-      ...address,
-      id: address.ROWID.toString(),
-    }));
+    return addresses.map(addressMapper);
   }
 }

@@ -1,6 +1,4 @@
 import { Field, InputType } from 'type-graphql';
-import { AddressListRelationFilter } from '../address/AddressListRelationFilter';
-import { SiteListRelationFilter } from '../site/SiteListRelationFilter';
 import { IntFilter } from '../utils/IntFilter';
 import { StringFilter } from '../utils/StringFilter';
 
@@ -29,6 +27,9 @@ export class CompanyWhereInput {
 
   @Field(() => StringFilter, { nullable: true })
   legislation?: StringFilter | undefined;
+
+  @Field(() => StringFilter, { nullable: true })
+  country?: StringFilter | undefined;
 
   @Field(() => StringFilter, { nullable: true })
   defaultAddress?: StringFilter | undefined;
@@ -75,9 +76,9 @@ export class CompanyWhereInput {
   @Field(() => StringFilter, { nullable: true })
   dimension7?: StringFilter | undefined;
 
-  @Field(() => AddressListRelationFilter, { nullable: true })
-  addresses?: AddressListRelationFilter | undefined;
+  // @Field(() => AddressListRelationFilter, { nullable: true })
+  // addresses?: AddressListRelationFilter | undefined;
 
-  @Field(() => SiteListRelationFilter, { nullable: true })
-  sites?: SiteListRelationFilter | undefined;
+  // @Field(() => SiteListRelationFilter, { nullable: true })
+  // sites?: SiteListRelationFilter | undefined;
 }

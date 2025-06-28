@@ -47,3 +47,27 @@ export const batchSiteAddress = async (siteCodes: readonly string[], prisma: Pri
 
   return siteCodes.map((code) => addressesBySite[code] || []);
 };
+
+export const batchSupplierAddress = async (supplierCodes: readonly string[], prisma: PrismaClient) => {
+  console.log(`DataLoader: Batching address fetch for suppliers: [${supplierCodes.join(', ')}]`);
+
+  const address = await prisma.address.findMany({
+    where: {
+      entityType: { equals: 1 },
+      entityNumber: { in: [...supplierCodes] },
+    },
+  });
+
+  const addressesBySupplier = address.reduce(
+    (acc, address) => {
+      if (!acc[address.entityNumber]) {
+        acc[address.entityNumber] = [];
+      }
+      acc[address.entityNumber].push(address);
+      return acc;
+    },
+    {} as Record<string, Address[]>,
+  );
+
+  return supplierCodes.map((code) => addressesBySupplier[code] || []);
+};

@@ -17,12 +17,6 @@ input AddressFilterInput {
   zipCode: String
 }
 
-input AddressListRelationFilter {
-  every: AddressWhereInput
-  none: AddressWhereInput
-  some: AddressWhereInput
-}
-
 """Represent an address"""
 type AddressType {
   addressLine1: String
@@ -48,42 +42,13 @@ type AddressType {
   zipCode: String
 }
 
-input AddressWhereInput {
-  AND: [AddressWhereInput!]
-  NOT: [AddressWhereInput!]
-  OR: [AddressWhereInput!]
-  addressEmail1: StringFilter
-  addressEmail2: StringFilter
-  addressEmail3: StringFilter
-  addressEmail4: StringFilter
-  addressEmail5: StringFilter
-  addressLine1: StringFilter
-  addressLine2: StringFilter
-  addressLine3: StringFilter
-  addressPhoneNumber1: StringFilter
-  addressPhoneNumber2: StringFilter
-  addressPhoneNumber3: StringFilter
-  addressPhoneNumber4: StringFilter
-  addressPhoneNumber5: StringFilter
-  city: StringFilter
-  code: StringFilter
-  country: StringFilter
-  countryName: StringFilter
-  defaultBankId: StringFilter
-  description: StringFilter
-  entityNumber: StringFilter
-  entityType: IntFilter
-  isDefault: IntFilter
-  state: StringFilter
-  zipCode: StringFilter
-}
-
 """Represent a company"""
 type CompanyType {
   """List of company addresses"""
-  addresses(where: AddressWhereInput): [AddressType!]
+  addresses: [AddressType!]
   company: String!
   companyName: String!
+  country: String
   defaultAddress: String
   dimension1: String
   dimension2: String
@@ -103,7 +68,7 @@ type CompanyType {
   legislation: String!
 
   """List of sites associated with the company"""
-  sites(where: SiteWhereInput): [SiteType!]
+  sites: [SiteType!]
   standardName: String!
 }
 
@@ -111,9 +76,9 @@ input CompanyWhereInput {
   AND: [CompanyWhereInput!]
   NOT: [CompanyWhereInput!]
   OR: [CompanyWhereInput!]
-  addresses: AddressListRelationFilter
   company: StringFilter
   companyName: StringFilter
+  country: StringFilter
   defaultAddress: StringFilter
   dimension1: StringFilter
   dimension2: StringFilter
@@ -131,7 +96,6 @@ input CompanyWhereInput {
   dimensionType7: StringFilter
   isLegalCompany: IntFilter
   legislation: StringFilter
-  sites: SiteListRelationFilter
   standardName: StringFilter
 }
 
@@ -334,7 +298,7 @@ type Products {
 }
 
 type Query {
-  """Returns a list of all existing companies"""
+  """Returns a list of all existing companies based on filter"""
   companies(where: CompanyWhereInput): [CompanyType!]!
 
   """Fetches a single customer by their business code."""
@@ -345,6 +309,9 @@ type Query {
 
   """Returns a list of sites, with filter options."""
   sites(where: SiteWhereInput): [SiteType!]!
+
+  """Returns a list of suppliers, with filter options."""
+  suppliers(where: SupplierWhereInput): [SupplierType!]!
 }
 
 type SalesOrder {
@@ -472,12 +439,6 @@ type SalesOrderPrice {
   taxLevel3: String!
 }
 
-input SiteListRelationFilter {
-  every: SiteWhereInput
-  none: SiteWhereInput
-  some: SiteWhereInput
-}
-
 """Represent a company site"""
 type SiteType {
   """List of addresses associated with the site"""
@@ -531,4 +492,96 @@ input StringFilter {
   not: NestedStringFilter
   notIn: [String!]
   startsWith: String
+}
+
+type SupplierType {
+  Notes: String
+  accountingCode: String
+  addressByDefault: String
+
+  """List of addresses associated with the supplier"""
+  addresses: [AddressType!]
+  amountType: Int
+  billBySupplier: String
+  billBySupplierAddress: String
+  carrier: String
+  cashVatDeadline: DateTimeISO
+  category: String
+  contact: String
+  creditControl: Int
+  currency: String
+  currencyRateDetermination: Int
+  defaultContact: String
+  deliveryMode: String
+  disputeStatus: Int
+  dueDateOrigin: Int
+  earlyDiscount: String
+  freeRanking: Decimal
+  freeRankingCoefficient: Decimal
+  groupSupplier: String
+  hasNoWhiteListVerification: Int
+  incoterm: String
+  intrastatIncreaseCoefficient: Decimal
+  intrastatTransportLocation: Int
+  is281Submitted: Int
+  isActive: Int
+  isCashVat: Int
+  isDas2Submitted: Int
+  isElectronicInvoice: Int
+  isMultiLineOrder: Int
+  isPaymentHeld: Int
+  leadTimeRanking: Decimal
+  leadTimeRankingCoefficient: Decimal
+  location: String
+  minimumOrderAmount: Decimal
+  mustPrintOrderForm: Int
+  mustPrintReceiptNote: Int
+  mustPrintReturnSlip: Int
+  mustRemindAcknowledgment: Int
+  mustRemindDelivery: Int
+  ourCustomerNameForSupplier: String
+  ourCustomerNumberForSupplier: String
+  payToBusinessPartner: String
+  payToBusinessPartnerAddress: String
+  paymentTerm: String
+  priceRanking: Decimal
+  priceRankingCoefficient: Decimal
+  purchaseOrderTextKey: String
+  qualityRanking: Decimal
+  qualityRankingCoefficient: Decimal
+  quantityRanking: Decimal
+  quantityRankingCoefficient: Decimal
+  rateType: Int
+  returnOrderTextKey: String
+  rexNumber: String
+  riskSupplier: String
+  selfBillingCode: String
+  serviceSupplierCode: String
+  startDataElectronicInvoice: Date
+  supplierABCClass: Int
+  supplierCode: String!
+
+  """The standard name of the supplier"""
+  supplierName: String!
+
+  """The type of the supplier"""
+  supplierType: Int
+  taxRule: String
+  totalRanking: Decimal
+  unavailable: String
+}
+
+input SupplierWhereInput {
+  address: AddressFilterInput
+  category: StringFilter
+  isActive: Boolean
+  shortName: StringFilter
+
+  """Pagination number (default=0)"""
+  skip: Int = 0
+  supplierCode: StringFilter
+  supplierName: StringFilter
+
+  """Number of suppliers to return."""
+  take: Int! = 100
 }
